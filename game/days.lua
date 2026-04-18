@@ -234,6 +234,7 @@ function days.m_presidential_campaign_3()
 end
 
 function days.m_robbery_time_1()
+    
 end
 
 function days.m_robbery_time_2()

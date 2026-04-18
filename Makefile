@@ -1,4 +1,4 @@
 all: run
 
 run:
-	love src
+	love game
