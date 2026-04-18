@@ -17,7 +17,7 @@ LIST OF DEATHS
 13 - prisonersDilemma.py Prison time
 ]]
 
-water_works.debug = false -- skips menus
+water_works.debug = true -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
@@ -31,6 +31,8 @@ water_works.message = 0 -- used to communicate short term bewteen days, typicall
 {2, string, color} -- append to last line of print buffer
 {3} -- clear screen
 {4, function} -- runs function
+{5, options} -- choice
+{6} -- wait for input A
 ]]
 local event_ticker = 0
 function water_works.update_event_queue(dt)
@@ -66,6 +68,31 @@ function water_works.update_event_queue(dt)
             event_ticker = 0
             event[2]()
             table.remove(event_queue, 1)
+        elseif event[1] == 5 then -- choice event
+            event_ticker = 0
+            if #active_choice == 0 then -- set the choices
+                active_choice = event[2]
+                answer = 0
+                hovered_answer = 1
+            elseif answer ~= 0 then -- we've selected an answer
+                active_choice = {}
+                print_buffer[#print_buffer + 1] = {colors.cyan, "[" .. answer .. "] " .. event[2][answer]} -- print our choice
+                print_buffer[#print_buffer + 1] = {colors.white, ""} -- new line
+                table.remove(event_queue, 1)
+            else -- still waiting on an answer
+                break
+            end
+        elseif event[1] == 6 then -- wait for input event
+            event_ticker = 0
+            if not waiting_for_input then
+                waiting_for_input = true
+                answer = 0
+            elseif answer ~= 0 then
+                waiting_for_input = false
+                table.remove(event_queue, 1)
+            else
+                break
+            end
         else
             print("Encountered event code " .. event[1])
             print(event)
@@ -79,6 +106,8 @@ end
 function water_works.sleep_event(time)
     event_queue[#event_queue + 1] = {0, time}
 end
+
+water_works.sleep = water_works.sleep_event
 
 function water_works.add_new_line_to_print_buffer_event(string, color)
     event_queue[#event_queue + 1] = {1, string, color}
@@ -96,8 +125,29 @@ function water_works.clear_event()
     event_queue[#event_queue + 1] = {3}
 end
 
+water_works.clear = water_works.clear_event
+
 function water_works.runner_event(f)
     event_queue[#event_queue + 1] = {4, f}
+end
+
+water_works.run = water_works.runner_event
+
+function water_works.choice_event(options)
+    event_queue[#event_queue + 1] = {5, options}
+end
+
+water_works.choice = water_works.choice_event
+
+function water_works.wait_for_input_event()
+    event_queue[#event_queue + 1] = {6}
+end
+
+water_works.wait_for_input = water_works.wait_for_input_event
+
+function water_works.pause()
+    water_works.fprintf("Press A", colors.dim, 0, 0)
+    water_works.wait_for_input()
 end
 
 -- wait is how long to sleep before next event, default 0.5
@@ -113,6 +163,10 @@ function water_works.fprintf(string, color, wait, text_speed)
     if color == "rainbow" then
         rainbow_print(string, text_speed)
     else
+        if type(color) == "string" then
+            color = water_works.convert_color(color)
+        end
+
         for i = 1, #string do
             water_works.add_new_line_to_print_buffer_event("", color)
 
@@ -144,6 +198,114 @@ function water_works.fprintf(string, color, wait, text_speed)
     end
 
     water_works.sleep_event(wait)
+end
+
+function rainbow_print(string, text_speed)
+    local rainbow_list = {colors.red, colors.orange, colors.yellow, colors.green, colors.blue, colors.purple}
+    local rainbow_int = math.random(#rainbow_list)
+
+    for i = 1, #string do
+        water_works.add_new_line_to_print_buffer_event("", colors.white)
+
+        local line = string[i]
+
+        for i = 1, #line do
+            local char = line:sub(i, i)
+            water_works.append_to_print_buffer_event(char, rainbow_list[rainbow_int])
+            rainbow_int = rainbow_int + 1
+            if rainbow_int > #rainbow_list then rainbow_int = 1 end
+
+            if text_speed ~= 0 then
+                if (
+                    char == "." or
+                    char == "!" or
+                    char == "?" or
+                    char == ";"
+                ) then
+                    water_works.sleep_event(0.5)
+                elseif (
+                    char == "," or
+                    char == ":"
+                ) then
+                    water_works.sleep_event(0.25)
+                else
+                    water_works.sleep_event(text_speed)
+                end
+            end
+        end
+    end
+end
+
+function water_works.random_death()
+    random_death_list = {"as a crab", "from carbon monoxide poisoning", "from really bad Chinese food", "from COVID-19", "from fall damage", "in the trenches", "in a compromising position", "trying to commit suicide", "through reading this message", "in an online game of Chess", "in your favorite battle royale videogame", "in a TLS handshake", "in an automobile accident", "as a Kurdish freedom fighter", "from a gluten overdose", "in a candle factory fire", "trying to pursue the American Dream", "caught up in the grimy criminal underworld of urban Wyoming", "as an ant", "from an angry weasel", "in a \"suicide\"", "from good, clean, fun"}
+    return random_death_list[math.random(#random_death_list)]
+end
+
+function water_works.random_greeting()
+    random_greeting_list = {"Let's get into it, yeah?", "You ready?", "Check me out on Bandcamp!", "Now with extra days!", "*snip snap snip snap snip snap*", "My claws are clicking \"fuck you\" in morse code.", "Let's get kraken!"}
+    return random_greeting_list[math.random(#random_greeting_list)]
+end
+
+function water_works.convert_color(color)
+    if color == "dim" then return colors.dim
+    elseif color == "red" then return colors.red
+    elseif color == "yellow" then return colors.yellow
+    elseif color == "green" then return colors.green
+    elseif color == "blue" then return colors.blue
+    elseif color == "purple" then return colors.purple
+    elseif color == "cyan" then return colors.cyan
+    elseif color == "orange" then return colors.orange
+    elseif color == "light_yellow" then return colors.light_yellow
+    elseif color == "pink" then return colors.pink
+    elseif color == "black" then return colors.black
+    else return colors.white
+    end
+end
+
+function water_works.day_plural()
+    if water_works.days == 1 then
+        return "day"
+    else
+        return "days"
+    end
+end
+
+function water_works.generate_queue()
+    local queue_list = {
+        "m_old_guy_drugs_1",
+        "m_presidential_campaign_1",
+        "m_robbery_time_1",
+        "m_soccer_practice_1",
+        "burn_witch",
+        "cooking_competition",
+        "crab_exam",
+        "depression",
+        "first_contact",
+        "fisherman",
+        "forward_scuttle",
+        "game_show",
+        "old_man",
+        "panera_bread_giftcard",
+        "peer_pressure",
+        "pirates",
+        "prawn_shop",
+        "prisoners_dilemma",
+        "purchase_some_goods",
+        "random_hot_crab",
+        "taste_testing",
+        "wrong_secret_agent"
+    }
+    queue_list = shuffle(queue_list)
+    return queue_list
+end
+
+-- taken from https://gist.github.com/Uradamus/10323382 shoutout
+function shuffle(tbl)
+    for i = #tbl, 2, -1 do
+        local j = math.random(i)
+        tbl[i], tbl[j] = tbl[j], tbl[i]
+    end
+    return tbl
 end
 
 return water_works
