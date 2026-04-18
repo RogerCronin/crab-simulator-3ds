@@ -5,6 +5,7 @@ local days = require("days")
 
 -- global variables usable in every file
 font = nil
+font_bold = nil
 touches = {}
 
 colors = {
@@ -83,6 +84,8 @@ function love.draw(screen)
     love.graphics.setFont(font)
     
     if screen ~= "bottom" then
+        -- scroll camera if the print_buffer would be offscreen
+        love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * 12))
         local line = 8
         for _, text in pairs(print_buffer) do
             love.graphics.printf(text, 0, line, 400, "center")
