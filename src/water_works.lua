@@ -74,12 +74,27 @@ function water_works.update_event_queue(dt)
                 active_choice = event[2]
                 answer = 0
                 hovered_answer = 1
+
+                local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
+                local _, strings = font:getWrap(answer_text, 384)
+                event[3] = #strings
+                for i = 1, #strings do
+                    print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
+                end
             elseif answer ~= 0 then -- we've selected an answer
                 active_choice = {}
-                print_buffer[#print_buffer + 1] = {colors.cyan, "[" .. answer .. "] " .. event[2][answer]} -- print our choice
-                print_buffer[#print_buffer + 1] = {colors.white, ""} -- new line
                 table.remove(event_queue, 1)
             else -- still waiting on an answer
+                for i = 0, event[3] - 1 do
+                    table.remove(print_buffer, #print_buffer)
+                end
+                local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
+                local _, strings = font:getWrap(answer_text, 384)
+                event[3] = #strings
+                for i = 1, #strings do
+                    print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
+                end
+
                 break
             end
         elseif event[1] == 6 then -- wait for input event
@@ -173,24 +188,44 @@ function water_works.fprintf(string, color, wait, text_speed)
             local line = string[i]
 
             for i = 1, #line do
-                local char = line:sub(i, i)
-                water_works.append_to_print_buffer_event(char)
-
-                if text_speed ~= 0 then
-                    if (
-                        char == "." or
-                        char == "!" or
-                        char == "?" or
-                        char == ";"
-                    ) then
-                        water_works.sleep_event(0.5)
-                    elseif (
-                        char == "," or
-                        char == ":"
-                    ) then
-                        water_works.sleep_event(0.25)
-                    else
-                        water_works.sleep_event(text_speed)
+                char = line:sub(i, i)
+                
+                if char == "\a" then
+                    water_works.append_to_print_buffer_event(".")
+                    water_works.sleep_event(text_speed)
+                elseif char == "\b" then
+                    water_works.append_to_print_buffer_event("!")
+                    water_works.sleep_event(text_speed)
+                elseif char == "\t" then
+                    water_works.append_to_print_buffer_event("?")
+                    water_works.sleep_event(text_speed)
+                elseif char == "\v" then
+                    water_works.append_to_print_buffer_event(";")
+                    water_works.sleep_event(text_speed)
+                elseif char == "\f" then
+                    water_works.append_to_print_buffer_event(",")
+                    water_works.sleep_event(text_speed)
+                elseif char == "\r" then
+                    water_works.append_to_print_buffer_event(":")
+                    water_works.sleep_event(text_speed)
+                else
+                    water_works.append_to_print_buffer_event(char)
+                    if text_speed ~= 0 then
+                        if (
+                            char == "." or
+                            char == "!" or
+                            char == "?" or
+                            char == ";"
+                        ) then
+                            water_works.sleep_event(0.5)
+                        elseif (
+                            char == "," or
+                            char == ":"
+                        ) then
+                            water_works.sleep_event(0.25)
+                        else
+                            water_works.sleep_event(text_speed)
+                        end
                     end
                 end
             end
