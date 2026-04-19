@@ -259,7 +259,7 @@ function days.m_robbery_time_1()
             fprint("Money + 1600525", "rainbow", 1)
             fprint("Badness + 1", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
-            config.experience = config.experience 1
+            config.experience = config.experience + 1
             config.personality = config.personality - 1
             config.message = "y"
             table.insert(queue, "m_robbery_time_2")
@@ -287,7 +287,7 @@ function days.m_robbery_time_2()
     fprint("You wake up to a group of policecrabs shouting orders through a megaphone.\n", "dim", 1)
     fprint("YOU'RE WANTED FOR THE BANK ROBBERY YESTERDAY! COMPLY AND WE WON'T USE FORCE!\n", "yellow", 1)
 
-    if config.message == "y": -- gakked
+    if config.message == "y" then -- gakked
         fprint("Goddamnit. They caught me.\n", "cyan")
         fprint("Well what're you gonna do?\n", "green")
     else -- innocent ash

@@ -6,7 +6,7 @@ local days = require("days")
 
 -- global variables usable in every file
 font = nil
-font_size = 12
+font_size = 14
 touches = {}
 
 colors = {
@@ -211,15 +211,12 @@ end
 function love.load()
     math.randomseed(os.time())
     love.graphics.set3D(false)
-    --[[
     if nest then
         font = love.graphics.newFont(font_file_name .. ".ttf", font_size)
     else
         font = love.graphics.newFont(font_file_name .. ".bcfnt", font_size)
     end
     love.graphics.setFont(font)
-    ]]
-    font = love.graphics.getFont()
     if not config.debug then title_screen() else game() end
 end
 
@@ -273,7 +270,6 @@ function love.draw(screen)
             line = line + font_size
         end
     else
-        love.graphics.print(font_size, 0, 0)
         if #active_choice ~= 0 then
             local line = 120 - 6 * #active_choice -- 120 is midpoint, subtract 6 for each line for vertical centering
 
