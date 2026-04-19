@@ -1,12 +1,23 @@
 nest = require("nest").init({ console = "3ds", emulateJoystick = true })
-local font_file_name = "assets/consolas"
+local font_file_name = "assets/jb_extra_bold"
 
 local config = require("water_works")
 local days = require("days")
 
 -- global variables usable in every file
 font = nil
-font_size = 14
+font_size = nil
+font_line_height = nil
+local font_file_name = nil
+if nest then -- on PC
+    font_file_name = "assets/jb_med"
+    font_size = 14
+    font_line_height = 14
+else -- on 3DS
+    font_file_name = "assets/jb_extra_bold"
+    font_size = 18
+    font_line_height = font_size - 4
+end
 touches = {}
 
 colors = {
@@ -263,27 +274,35 @@ function love.draw(screen)
     
     if screen ~= "bottom" then
         -- scroll camera if the print_buffer would be offscreen
-        love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_size))
+        love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_line_height))
         local line = 8
         for _, text in pairs(print_buffer) do
             love.graphics.printf(text, 0, line, 400, "center")
-            line = line + font_size
+            line = line + font_line_height
         end
     else
         if #active_choice ~= 0 then
-            local line = 120 - 6 * #active_choice -- 120 is midpoint, subtract 6 for each line for vertical centering
-
+            local total_lines = 0
+            local wrapped_lines = {}
             for i, choice in pairs(active_choice) do
+                local _, choice = font:getWrap(choice, 320 - (8 * 4 + choice_horizontal_offset) * 2)
+                total_lines = total_lines + #choice
+                wrapped_lines[i] = choice
+            end
+
+            local line = 120 - (font_line_height / 2) * total_lines -- 120 is midpoint, subtract half of line height for each line to center
+
+            for i = 1, #active_choice do
                 if i == hovered_answer then
                     love.graphics.print({colors.cyan, ">>"}, 8 + choice_horizontal_offset, line)
                 end
 
-                local _, choice = font:getWrap(choice, 320 - (8 * 4 + choice_horizontal_offset) * 2)
+                local choice = wrapped_lines[i]
                 love.graphics.print({colors.cyan, "[" .. i .. "] " .. choice[1]}, 8 * 4 + choice_horizontal_offset, line)
-                line = line + font_size
+                line = line + font_line_height
                 for j = 2, #choice do
                     love.graphics.print({colors.cyan, choice[j]}, 8 * 4 + choice_horizontal_offset, line)
-                    line = line + font_size
+                    line = line + font_line_height
                 end
             end
         end

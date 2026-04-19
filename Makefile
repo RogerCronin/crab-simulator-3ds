@@ -29,6 +29,5 @@ build: FORCE
 
 	cd build && zip -r "Crab Simulator (2020).zip" ./
 	mv "build/Crab Simulator (2020).zip" "Crab Simulator (2020).zip"
-	rm -rf build
 
 FORCE: ;
