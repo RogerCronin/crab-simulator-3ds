@@ -234,19 +234,165 @@ function days.m_presidential_campaign_3()
 end
 
 function days.m_robbery_time_1()
-    
+    fprint("You spot your favorite hot dog stand, The Wacky Dawg, just across the street.\n", "dim", 1)
+    fprint("Oh hey, I guess I could go for a bite to e-\n", "cyan", 0)
+    fprint("YO KID, OVER HERE.", "yellow")
+    fprint("A weasel calls from by the water.\n", "dim", 2)
+    fprint("Huh? Me?\n", "cyan", 0)
+    fprint("AY, YEAH YOU, OVER HERE.\n", "yellow", 1)
+    fprint("You walk over to the weasel.\n", "dim", 1)
+    fprint("Yeah man?\n", "cyan")
+    fprint("You wanna rob that bank over there? I gotta have a \"partner in crime\" or I'll never make it in the criminal underworld of this beachside resort.\n", "yellow")
+
+    choice({"Yeah let's go", "Nah man that's not me anymore"})
+    run(function ()
+        if answer == 1 then
+            fprint("You got it.\n", "cyan")
+            fprint("The two of you walk into the bank.\n", "dim", 1)
+            fprint("HANDS IN THE AIR!\n", "yellow")
+            fprint("Everyone's hands shoot up. The weasel walks over to the bank teller while you stand by the front door.\n", "dim", 2)
+            fprint("Weeee woooo. Weeee woooooooo. Weeeeeeeee wooo.\n", "red", 1)
+            fprint("Shit! The cops are here. Take this and scram.\n", "yellow")
+            fprint("The weasel hands you four bags with dollar bill signs on them.", "dim", 2)
+            fprint("You hightail it out of there money in hand til you end up at your apartment.\n", "dim")
+            fprint("Whew. That was a close one, yeah?\n", "cyan", 1)
+            fprint("Money + 1600525", "rainbow", 1)
+            fprint("Badness + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience 1
+            config.personality = config.personality - 1
+            config.message = "y"
+            table.insert(queue, "m_robbery_time_2")
+            run(end_of_day)
+        else
+            fprint("Nah, I'm not lookin to do anything illegal today.", "cyan")
+            fprint("Thanks tho.\n", "cyan", 1)
+            fprint("Oh well, that's a shame. I'll just list you as an accomplice tomorrow when I'm arrested.\n", "yellow")
+            fprint("Bullshit.\n", "cyan")
+            fprint("Try me.\n", "yellow")
+            fprint("You walk home and reheat some curry for dinner.\n", "dim", 1)
+            fprint("Sense of foreboding + 4", "rainbow", 1)
+            fprint("Goodness + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            config.personality = config.personality + 1
+            config.message = "n"
+            table.insert(queue, "m_robbery_time_2")
+            run(end_of_day)
+        end
+    end)
 end
 
 function days.m_robbery_time_2()
+    fprint("You wake up to a group of policecrabs shouting orders through a megaphone.\n", "dim", 1)
+    fprint("YOU'RE WANTED FOR THE BANK ROBBERY YESTERDAY! COMPLY AND WE WON'T USE FORCE!\n", "yellow", 1)
+
+    if config.message == "y": -- gakked
+        fprint("Goddamnit. They caught me.\n", "cyan")
+        fprint("Well what're you gonna do?\n", "green")
+    else -- innocent ash
+        fprint("That weasely fucker.\n", "cyan")
+        fprint("Shit. What do you do?\n", "green")
+    end
+
+    choice({"Go outside with your claws up", "Peck shots through your window"})
+    run(function ()
+        if answer == 1 then
+            fprint("YO! I'm coming outside with my claws up, unarmed.", "cyan")
+            fprint("(or unclawed, heheh)", "dim", 0)
+            fprint("You call out through your window.\n", "dim")
+            fprint("Oh sweet bb. Thanks.\n", "yellow", 2)
+        else
+            config.message = "y"
+            fprint("Yeah, fuck those guys.\n", "cyan", 1)
+            fprint("You peek over the window with a slingshot, launching rocks at the policecrabs down below.\n", "dim", 1)
+            fprint("POUND POUND POUND.", "red")
+            fprint("SWAT TEAM, OPEN UP!\n", "yellow")
+            fprint("Uh oh.\n", "cyan")
+            fprint("A stream of at least 10 crabs race into your bedroom and arrest you.", "dim", 2)
+        end
+
+        fprint("Later...\n", "dim")
+        fprint("Aight, you're definitely guilty. See ya later.", "blue")
+        fprint("The judge says, leaving the courtroom.\n", "dim")
+        fprint("Have fun in jail, buddy!\n", "yellow", 2)
+
+        if config.message == "y" then
+            fprint("Regret + 7", "rainbow", 1)
+        else
+            fprint("Belief in the legal system - 14", "rainbow", 1)
+            fprint("Goodness + 1", "rainbow", 1)
+            config.personality = config.personality + 1
+        end
+        fprint("Experience + 1\n", "rainbow", 1)
+        config.experience = config.experience + 1
+        table.insert(queue, "m_robbery_time_3")
+        run(end_of_day)
+    end)
 end
 
 function days.m_robbery_time_3()
+    fprint("Wow, is this really your cell? This shit sucks.\n", "green", 1)
+    fprint("You see two bunk beds, a table, and a sink resting on a grimy floor. Two other crabs are here. One appears to be playing a harmonica, but on closer inspection it's a few plastic straws taped together.\n", "dim", 1)
+    fprint("Ay, you see that buff crab lifting weights by the table? It'd be real cool to assert your dominance. Go rough him up a bit.\n", "green")
+
+    choice({"Show him a bit of da pincers", "Let it be"})
+    run(function ()
+        if answer == 1 then
+            fprint("Hey, dude with the weights. You wanna tussle?", "cyan", 0)
+            fprint("You ask the buff crab.\n", "dim")
+            fprint("Sure, punk.\n", "yellow", 2)
+            config.state = "He smashed you up good. Like, reeeaaal good. Probably should've paid attention when I called him a \"buff crab lifting weights\".06"
+            run(end_of_day)
+        else
+            fprint("You called him a \"buff crab lifting weights\", so I think I'll pass.\n", "cyan")
+            fprint("Pshhh no fun.", "green", 1)
+            fprint("Well, grow accustomed to your new prison life. You'll be here for a few days.\n", "green")
+            fprint("Will do.\n", "cyan", 1)
+            fprint("School smarts - 1", "rainbow", 1)
+            fprint("Street smarts + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            table.insert(queue, "m_robbery_time_4")
+            run(end_of_day)
+        end
+    end)
 end
 
 function days.m_robbery_time_4()
+    fprint("It's movie night at the prison ward, and it's your turn to pick! What will you be watching?\n", "dim", 1)
+    
+    choice({"The Shape of Water", "Shark Tale", "Manchester by the Sea"})
+    run(function ()
+        if answer == 1 then
+            fprint("Several inmates groan when you announce your decision. All are thoroughly uncomfortable by the time the film ends.\n", "dim", 1.5)
+            fprint("Good job ig.\n", "green", 1)
+            fprint("Taste in movies +- 1 depending on if you actually like that movie", "rainbow", 1)
+        elseif answer == 2 then
+            fprint("Boooo!", "yellow", 0)
+            fprint("Some crab calls out when you announce your decision.\n", "dim", 1.5)
+            fprint("---1 movie later---\n", "dim", 2, 0)
+            fprint("I guess that wasn't bad...", "cyan", 0)
+            fprint("You try to convince yourself. It's not working very well.\n", "dim", 2)
+            fprint("Taste in movies - 1", "rainbow", 1)
+        else
+            fprint("Bro what even is this.", "yellow")
+            fprint("Someone calls out.\n", "dim", 1)
+            fprint("It seems some crabs are unhappy with your decision.\n", "dim", 1.5)
+            fprint("By the end of the movie, all of the crabs are sobbing.\n", "dim", 1)
+            fprint("Cmon guys it's really not that sad.", "green")
+            fprint("The narrator says, trying to stay composed through the tears.\n", "dim", 1)
+            fprint("Taste in movies + 2", "rainbow", 1)
+        end
+        fprint("Experience + 1\n", "rainbow", 2)
+        config.experience = config.experience + 1
+        table.insert(queue, "m_robbery_time_5")
+        run(end_of_day)
+    end)
 end
 
 function days.m_robbery_time_5()
+    
 end
 
 function days.m_robbery_time_6()
