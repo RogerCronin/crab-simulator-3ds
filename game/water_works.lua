@@ -17,7 +17,7 @@ LIST OF DEATHS
 13 - prisonersDilemma.py Prison time
 ]]
 
-water_works.debug = true -- skips menus
+water_works.debug = false -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
@@ -90,6 +90,7 @@ function water_works.update_event_queue(dt)
                 end
                 local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
                 local _, strings = font:getWrap(answer_text, 384)
+                if not nest then strings[#strings + 1] = "" end -- 3ds wrapping fix
                 event[3] = #strings
                 for i = 1, #strings do
                     print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
@@ -168,24 +169,25 @@ end
 -- wait is how long to sleep before next event, default 0.5
 -- text speed is how long one (normal) letter takes to print, default 0.04
 -- slow text should be 0.06, fast text should be 0.02
-function water_works.fprintf(string, color, wait, text_speed)
+function water_works.fprintf(text, color, wait, text_speed)
     color = color or colors.white
     wait = wait or 0.5
     text_speed = text_speed or 0.04
 
-    local _, string = font:getWrap(string, 384) -- 400 px - (8 px on each side)
+    local _, wrapped_text = font:getWrap(text, 384) -- 400 px - (8 px on each side)
+    if not nest and text:sub(-1) == "\n" then wrapped_text[#wrapped_text + 1] = "" end -- on 3ds, getWrap with trailing \n doesn't make a new line
 
     if color == "rainbow" then
-        rainbow_print(string, text_speed)
+        rainbow_print(wrapped_text, text_speed)
     else
         if type(color) == "string" then
             color = water_works.convert_color(color)
         end
 
-        for i = 1, #string do
+        for i = 1, #wrapped_text do
             water_works.add_new_line_to_print_buffer_event("", color)
 
-            local line = string[i]
+            local line = wrapped_text[i]
 
             for i = 1, #line do
                 char = line:sub(i, i)

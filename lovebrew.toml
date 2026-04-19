@@ -1,0 +1,10 @@
+[metadata]
+title = "Crab Simulator (2020)"
+author = "squarebrackets"
+description = "A port of the classic game Crab Simulator"
+icons = { ctr = "game/assets/icon.png" }
+
+[build]
+targets = ["ctr"]
+source = "game"
+packaged = true

@@ -1,11 +1,12 @@
-require("nest").init({ console = "3ds", emulateJoystick = true })
+nest = require("nest").init({ console = "3ds", emulateJoystick = true })
+local font_file_name = "assets/consolas"
 
 local config = require("water_works")
 local days = require("days")
 
 -- global variables usable in every file
 font = nil
-font_bold = nil
+font_size = 12
 touches = {}
 
 colors = {
@@ -34,7 +35,7 @@ waiting_for_input = false
 hovered_answer = 1
 answer = 0
 
-local function intro()
+function intro()
     config.clear()
     config.fprintf("Welcome!\n", colors.green, 1)
     config.fprintf("You've died tragically " .. config.random_death() .. ".\n", colors.red, 1.5)
@@ -54,11 +55,11 @@ local function intro()
     game()
 end
 
-local function credits()
+function credits()
     config.clear()
     config.fprintf("Made by Jacob Johnson and Roger Cronin\n", colors.green, 1)
     config.fprintf("Shoutout to RomeroShwarz and their 1300s Peasant Simulator for inspiration\n", colors.green, 1)
-    config.fprintf("Shoutout https://en.wikipedia.org/wiki/Crab\n", colors.green, 1)
+    config.fprintf("Shoutout https\r//en\awikipedia\aorg/wiki/Crab\n", colors.green, 1)
     config.fprintf("Crab art by tre\n", colors.green, 1)
     config.fprintf("A bunch of people who tested and probably don't want their names on this\n", colors.green, 1)
     config.fprintf("And you, gamer.", colors.green, 1)
@@ -67,7 +68,7 @@ local function credits()
     title_screen()
 end
 
-local function title_screen()
+function title_screen()
     config.clear()
     config.fprintf(" /\\           .", colors.red, 0, 0)
     config.fprintf("( /   @ @    ()", colors.red, 0, 0)
@@ -98,7 +99,7 @@ local function title_screen()
     )
 end
 
-local function game()
+function game()
     if config.state == 0 then -- we're still alive and executing
         if #queue ~= 0 then -- if there are days to execute, play them
             config.pause()
@@ -210,8 +211,15 @@ end
 function love.load()
     math.randomseed(os.time())
     love.graphics.set3D(false)
-    font = love.graphics.newFont("assets/consolas.ttf", 12)
+    --[[
+    if nest then
+        font = love.graphics.newFont(font_file_name .. ".ttf", font_size)
+    else
+        font = love.graphics.newFont(font_file_name .. ".bcfnt", font_size)
+    end
     love.graphics.setFont(font)
+    ]]
+    font = love.graphics.getFont()
     if not config.debug then title_screen() else game() end
 end
 
@@ -258,13 +266,14 @@ function love.draw(screen)
     
     if screen ~= "bottom" then
         -- scroll camera if the print_buffer would be offscreen
-        love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * 12))
+        love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_size))
         local line = 8
         for _, text in pairs(print_buffer) do
             love.graphics.printf(text, 0, line, 400, "center")
-            line = line + 12
+            line = line + font_size
         end
     else
+        love.graphics.print(font_size, 0, 0)
         if #active_choice ~= 0 then
             local line = 120 - 6 * #active_choice -- 120 is midpoint, subtract 6 for each line for vertical centering
 
@@ -275,10 +284,10 @@ function love.draw(screen)
 
                 local _, choice = font:getWrap(choice, 320 - (8 * 4 + choice_horizontal_offset) * 2)
                 love.graphics.print({colors.cyan, "[" .. i .. "] " .. choice[1]}, 8 * 4 + choice_horizontal_offset, line)
-                line = line + 12
+                line = line + font_size
                 for j = 2, #choice do
                     love.graphics.print({colors.cyan, choice[j]}, 8 * 4 + choice_horizontal_offset, line)
-                    line = line + 12
+                    line = line + font_size
                 end
             end
         end
