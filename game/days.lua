@@ -444,18 +444,201 @@ function days.m_robbery_time_6()
 end
 
 function days.m_soccer_practice_1()
+    fprint("It's 7 o'clock in the afternoon, and you've just finished soccer practice.\n", "dim", 1)
+
+    fprint("Wow, that sure was a fun practice!", "cyan")
+    fprint("You say to your teammates.\n", "dim", 1)
+
+    fprint("Yeah! I sure am glad we're crabs, animals famous for their love of sports!", "yellow")
+    fprint("A friend says back.\n", "dim", 1)
+
+    fprint("Now I just gotta wait for Mom to come pick me up.", "cyan", 3)
+
+    fprint("...", "cyan", 3)
+
+    fprint("Mom?\n", "cyan", 2)
+    table.insert(queue, "m_soccer_practice_2")
+    run(end_of_day)
 end
 
 function days.m_soccer_practice_2()
+    fprint("You ended up sleeping on the ground.\n", "dim", 1)
+
+    fprint("I wonder when Mom will show up.", "cyan")
+    fprint("You think to yourself.\n", "dim", 2)
+
+    fprint("At least the weather i-\n", "cyan", 2)
+
+    fprint("It starts to rain.\n", "dim", 2)
+
+    fprint("Well at least it can't ge-\n", "cyan", 0)
+
+    fprint("Yeah it's freaking thundering now yup.\n", "dim", 2, 0.02)
+
+    fprint("Um...\n", "cyan", 2)
+    table.insert("m_soccer_practice_3")
+    run(end_of_day)
 end
 
 function days.m_soccer_practice_3()
+    fprint("You're lying in the field. Bugs crawl across your shell. A swift fox curls up next to you while it naps. Nature has started to reclaim what was once hers\n.", "dim", 1)
+    fprint("Wait a minute, wasn't I reincarnated, like, " .. config.days .. " days ago? Do I even have a Mom?\n", "cyan", 1)
+    fprint("You decide to walk back to your apartment.\n", "dim", 1)
+    fprint("Rookie mistake, kid. You gotta remember these things if you're gonna survive under the sea.\n", "green", 2)
+
+    fprint("Loneliness + 4", "rainbow", 1)
+    fprint("Experience + 1\n", "rainbow", 2)
+    config.experience = config.experience + 1
 end
 
 function days.burn_witch()
+    fprint("Unfortunately, it seems the townspeople of your weird little crab society have accused you of being a witch.\n", "dim")
+    fprint("No shot people still believe in witches.\n", "cyan")
+    fprint("A brutish people. Savages, even. Anyway they'll be at your house in like 2 minutes, better make sure you're prepared.\n", "green")
+    
+    choice({"Grab a broom", "Use your claws", "Spill some oil", "Do nothing"})
+    run(function ()
+        if answer == 1 then
+            fprint("Broom it is!\n", "cyan")
+            fprint("They're obviously gonna think that's your witchy getaway vehicle.\n", "green")
+            fprint("Suddenly, the broom starts to vibrate intensely.\n", "dim")
+            fprint("Oh my god. Oh my god! Is it gonna start floating? Maybe I am a witch! Haha, no way! This is awesome!\n", "cyan", 1)
+            fprint("The broom implodes, injuring you, your house, and much of the mob gathered outside. Nice going, pal.\n", "dim", 1)
+
+            fprint("Bodily injuries + 23", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            table.insert("c_broom_hospital")
+            run(end_of_day)
+        elseif answer == 2 then
+            fprint("Well fuckers, it's show time.\n", "cyan")
+            fprint("The door to your house is broken down, and you start wailing away.\n", "dim", 1)
+
+            fprint("WHAM!", "red")
+            fprint("Says the big letters appearing whenever you hit someone.\n", "dim")
+            fprint("BAM!\n", "red")
+            fprint("How are you doing that?\n", "green")
+            fprint("POW!\n", "red", 2)
+            fprint("You stare at the utter carnage surrounding you. You evil, evil crab. You killed a baby. A baby crab was in the mob and you killed it. You monster.\n", "dim", 1)
+
+            fprint("Disrespect for the infantile + 8", "rainbow", 1)
+            fprint("Badness + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            config.personality = config.personality - 1
+            run(end_of_day)
+        elseif answer == 3 then
+            fprint("You start pouring oil out of your apartment window on some BP shit for real. Undoubtedly the mob getting doused in petroleum below you will experience reduced quality of life and shortened lifespans.\n", "dim", 1)
+            fprint("People eventually clear out. You begin to grapple with the ecological disaster you've created.\n", "dim")
+            fprint("Oil stocks - 2", "rainbow", 1)
+            fprint("Badness + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            config.personality = config.personality - 1
+            run(end_of_day)
+        else
+            fprint("I really can't be bothered to do anything about this.\n", "cyan")
+            fprint("Dude, come on...\n", "green", 2)
+            config.state = "The mob dragged you from your computer and convicted you at a sham trial. As much as you tried, your non-existent magical powers couldn't save you from burning at the stake.02"
+            run(end_of_day)
+        end
+    end)
 end
 
 function days.cooking_competition()
+    fprint("You cook, right?", "yellow", 0)
+    fprint("Your friend Carlos asks you while playing on his Nintendo SeaDS.\n", "dim", 1)
+    fprint("I mean I can make a mean cup noodle every now and then...\n", "cyan")
+    fprint("Well you gotta check this out, man.\n", "yellow", 1)
+    fprint("He holds up a newspaper, pointing to the article titled \"$250,000 Cooking Competition\".\n", "dim")
+    fprint("Holy fucking moly dude.\n", "cyan", 1.5)
+    fprint("With no time to practice, you head out to the competition site.\n", "dim", 1)
+    fprint("I'm here to sign up for the cooking competition!~", "cyan", 0)
+    fprint("You say to the person manning the box office.\n", "dim", 1)
+    fprint("Sure, bud, just need some identification, please.\n", "yellow")
+
+    fprint("You definitely don't have ")
+    choice({"Show them your passport", "Show them your Caniac Club card"})
+    run(function ()
+        if answer == 1 then
+            fprint("Here's my passport.\n", "cyan")
+        else
+            fprint("Here's my Caniac Club card.\n", "cyan")
+        end
+        fprint("What? No, I mean your National Cooking Association member card.\n", "yellow")
+        fprint("Oh um nevermind sorry.\n", "cyan", 1)
+        fprint("You're definitely getting into this thing. What should you try?\n", "green")
+        choice({"Scale the building and climb in through the roof", "Pretend to be HVAC fixing a problem"})
+        run(function ()
+            if answer == 1 then
+                fprint("I'm sure this won't end horribly!\n", "cyan")
+                fprint("Actually, it didn't end horribly.", "dim", 1)
+                fprint("You reach the top and break off the cover to a duct. After crawling around for a while, you pop out inside the venue.\n", "dim", 1)
+            else
+                fprint("You put on your trusty denim jumpsuit and stroll in through the front gate.\n", "dim", 1)
+                fprint("Ay, what do you think you're doing?", "blue", 0)
+                fprint("A security crab asks you.\n", "dim", 2)
+                fprint("Oh, uh, me? I'm here to fix the AC.\n", "cyan", 2)
+                fprint("This stadium doesn't have AC.\n", "blue", 2)
+                fprint("That's what I'm fixing.\n", "cyan", 2)
+                fprint("Fair enough.\n", "blue")
+                fprint("They motion you through. You walk around until you find the backstage.\n")
+            end
+
+            fprint("Attention all competitors, to your cooking stations in the next five minutes.", "yellow", 0)
+            fprint("Some crab says over the intercom.\n", "dim")
+            fprint("You follow the crowd through a large entryway, emerging onto the floor of the stadium. Around you animals of all shapes and sizes cheer on their favorite chefs as they emerge, a deafening roar that drowns out any chit-chat from your competition. They all assume position at their designated tables, atop which lie a variety of cooking utensils. You situate yourself next to a rather scary looking shrimp.\n", "dim", 1)
+            fprint("Chefs!", "yellow")
+            fprint("Five!", "yellow")
+            fprint("Four!", "yellow")
+            fprint("Three!", "yellow")
+            fprint("Two!", "yellow")
+            fprint("One!", "yellow")
+            fprint("Start!\n", "yellow")
+            
+            choice({"Make grandma's famous meatloaf", "Steal a recipe from your neighbor", "Crack out the cup noodles"})
+            run(function ()
+                if answer == 1 then
+                    fprint("You whip open the minifridge underneath the table, determined to make Mee Maws's best. Pulling out a package of group beef, some veggies, and a bottle of chili sauce, you go to town\n", "dim", 1)
+                    fprint("90 minutes left!\n", "yellow")
+                    fprint("You throw everything together in a mixing bowl, then dump it into a pan. It goes in at 350 until the internal temperature reads 160.\n", "dim")
+                    fprint("45 minutes left!\n", "yellow")
+                    fprint("You anxiously wait.\n", "dim")
+                    fprint("5 minutes left!\n", "yellow")
+                    fprint("You pull it out of the oven.\n", "dim")
+                    fprint("1 minute left!\n", "yellow")
+                    fprint("You finish the plating, garnishing with some sprig of parsley or cilantro or something.\n", "dim")
+                    fprint("And time! Chefs, bring your creations up to the judging platform.\n", "yellow", 2)
+                    fprint("You wait an agonizing ten minutes in line. Finally, you're up.\n", "dim")
+                    fprint("Here's my, uh, meatloaf. Just like Gam Gam used to make.\n", "cyan")
+                    fprint("The judge nods, pulls out their fork, and takes a bite. The crowd goes silent. The tension in the air is palpable. Their stare wide ahead. It's impossible to tell what they're thinking. You could hear a pin drop. Finally, the judge opens their mouth and says", "dim", 0)
+                    fprint("6/10.\n", "blue", 2)
+                elseif answer == 2 then
+                    fprint("You sneak over to your opponent's table. They don't appear to notice you underneath the crowd's roar. Lifting a paper off the table, you swiftly return to your own station.\n", "dim", 1)
+                    fprint("Hey, punk.", "blue", 0)
+                    fprint("Says the shrimp, now right behind you.\n", "dim", 2)
+                    config.state = "The shrimp told the judges and you got kicked out of the stadium. And then you got hit by a car walking home. Pay more attention, yeah?09"
+                    run(end_of_day)
+                    return
+                else
+                    fprint("You open the ingredients draw and pull out a styrofoam cup of ramen to heat in the microwave. After a couple minutes prep time, your meal is finished.\n", "dim", 1)
+                    fprint("Uh, guess I gotta wait until time's up?\n", "cyan")
+                    fprint("You play chopsticks with the narrator for the next hour or so.\n", "dim", 2)
+                    fprint("And time! Chefs, bring your creations up to the judging platform.\n", "yellow", 2)
+                    fprint("After 10 minutes in line, it's finally your turn to go.\n", "dim", 1)
+                    fprint("Here's my, uh, cup noodles.\n", "cyans", 2)
+                    fprint("...", "blue", 2)
+                    fprint("Leave.\n", "blue", 2)
+                end
+                fprint("It's a glum walk back to your apartment.\n", "dim")
+                fprint("Hey man, 25th out of... oh, well, they were professional chefs, you didn't stand a chance.\n", "green")
+                fprint("Resentment for restaurants + 1", "rainbow", 1)
+                fprint("Experience + 1\n", "rainbow", 2)
+                config.experience = config.experience + 1
+                run(end_of_day)
+            end)
+        end)
+    end)
 end
 
 function days.crab_exam()
@@ -507,7 +690,7 @@ function days.wrong_secret_agent()
 end
 
 function days.c_broom_hospital()
-    fprint("You wound up in the hospital following your tragic magical getaway.\n", "dim")
+    fprint("You wound up in the hospital following your magical calamity.\n", "dim")
     fprint("I'm sorry, but I can't submit \"flying broom stick accident\" to insurance claims.", "yellow")
     fprint("Says the doctor in your hospital room.\n", "dim", 1)
     fprint("I'm afraid you'll have to pay the full amount of 15 dollars.\n", "yellow", 1)
