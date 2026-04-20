@@ -36,7 +36,7 @@ colors = {
 }
 
 --queue = config.generate_queue()
-queue = {"m_presidential_campaign_2"}
+queue = {"m_robbery_time_1"}
 event_queue = {}
 print_buffer = {}
 active_choice = {}
@@ -137,8 +137,6 @@ function game()
             )
         end
     else
-        config.clear()
-
         if config.state == -1 then
             config.pause()
             config.clear()
@@ -198,6 +196,7 @@ function game()
                 end
             )
         else
+            config.clear()
             -- lose the game!
             config.fprintf("You died.\n", colors.red, 2, 0)
             config.fprintf("Ending " .. config.state:sub(-2) .. "\n", colors.green, 1, 0)

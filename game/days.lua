@@ -180,7 +180,7 @@ function days.m_presidential_campaign_2()
                             fprint("I'm all about finding crab-ruption in the government.\n", "cyan", 1)
                         end
                     fprint("Oh, dope. You got my vote.\n", "yellow", 2)
-                    fprint("You expain your policies to a couple more aquatic animals. A handful seem interested in your platform.\n", "dim", 1)
+                    fprint("You explain your policies to a couple more aquatic animals. A handful seem interested in your platform.\n", "dim", 1)
                     fprint("Voters + 45\n", "rainbow", 2)
                     end
                 )
@@ -295,21 +295,20 @@ function days.m_robbery_time_2()
         fprint("Shit. What do you do?\n", "green")
     end
 
-    choice({"Go outside with your claws up", "Peck shots through your window"})
+    choice({"Go outside with your claws up", "Use your gun"})
     run(function ()
         if answer == 1 then
             fprint("YO! I'm coming outside with my claws up, unarmed.", "cyan")
-            fprint("(or unclawed, heheh)", "dim", 0)
             fprint("You call out through your window.\n", "dim")
             fprint("Oh sweet bb. Thanks.\n", "yellow", 2)
         else
             config.message = "y"
-            fprint("Yeah, fuck those guys.\n", "cyan", 1)
-            fprint("You peek over the window with a slingshot, launching rocks at the policecrabs down below.\n", "dim", 1)
-            fprint("POUND POUND POUND.", "red")
+            fprint("Didn't know you had one of those.\n", "green")
+            fprint("You peek over the window with your burner, sending shots at the policecrabs down below.\n", "dim", 1)
+            fprint("POUND POUND POUND.\n", "red")
             fprint("SWAT TEAM, OPEN UP!\n", "yellow")
             fprint("Uh oh.\n", "cyan")
-            fprint("A stream of at least 10 crabs race into your bedroom and arrest you.", "dim", 2)
+            fprint("A stream of at least 10 crabs race into your bedroom and arrest you.\n", "dim", 2)
         end
 
         fprint("Later...\n", "dim")
@@ -392,10 +391,56 @@ function days.m_robbery_time_4()
 end
 
 function days.m_robbery_time_5()
-    
+    local gang_list = {"yellow", "blue"}
+    local good = gang_list[math.random(#gang_list)]
+    local bad = nil
+    if good == "yellow" then bad = "blue" else bad = "yellow" end
+
+    fprint("You're enjoying some quality prison food when another crab meets your gaze.\n", "dim")
+    fprint("Hey, come close. I gotta ask you something important.", good, 0)
+    fprint("Some " .. good .. " crab says to you during lunch.\n", "dim", 1)
+    fprint("What's up?\n", "cyan")
+    fprint("You new here or somethin?\n", good)
+    choice({"Yes", "No"})
+    fprint("Well, I-\n", "cyan", 0)
+    fprint("Okay, alright, listen, you see those " .. bad .. " crabs over there? I want you to wave em over. All casual like, right?\n", good)
+    fprint("You nervously make eye contact with one of the " .. bad .. " crabs and motion them over. They eye you up and start approaching.\n", "dim", 2)
+    fprint("...", bad)
+    fprint("What is it.\n", bad, 1.5)
+    fprint("Hey, um, so.. this, uhm. This crab wanted me to, um. To uh-\n", "cyan", 0)
+    fprint("STAB!\n", good, 1.5)
+    fprint("You look on in horror as the " .. bad .. " crab staggers away, gushing blood from a stab wound in the shell.\n", "dim")
+    fprint("FUCK!\n", bad, 1)
+    fprint("Five " .. bad .. " crabs rush over, grab the " .. good .. " crab before they can escape, and hit them back.", "dim")
+    fprint("You stumble away from the fight and collapse on the ground, head spinning.\n", "dim", 2)
+    fprint("After the dust settles, a warden picks you up and shuffles you back to your cell. Lunch was cut short.\n", "dim", 2)
+
+    fprint("That's not even funny, why would you write that.\n", "green")
+
+    fprint("Will to remain alive - 60", "rainbow", 1)
+    fprint("Experience + 1\n", "rainbow", 2)
+    config.experience = config.experience + 1
+    table.insert(queue, "m_robbery_time_6")
+    run(end_of_day)
 end
 
 function days.m_robbery_time_6()
+    fprint("Ok you're free to go.\n", "yellow", 0)
+    fprint("A crab behind the glass window says to you.\n", "dim", 1)
+    fprint("The chain-link gate opens and an alarm starts blaring, but you don't care. All you want to do is breathe in the fresh air.\n", "dim")
+    if config.message == "y" then
+        fprint("Dude, no more prison time. Not cool.\n", "green")
+    else
+        fprint("Let's hope that doesn't happen again.\n", "green")
+    end
+    fprint("Will to remain alive + 59", "rainbow", 1)
+    if config.message == "y" then
+        fprint("Experience + 1 (but only if you learned your lesson)\n", "rainbow", 2)
+    else
+        fprint("Experience + 1", "rainbow", 2)
+    end
+    config.experience = config.experience + 1
+    run(end_of_day)
 end
 
 function days.m_soccer_practice_1()

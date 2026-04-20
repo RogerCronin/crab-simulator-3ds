@@ -17,7 +17,7 @@ LIST OF DEATHS
 13 - prisonersDilemma.py Prison time
 ]]
 
-water_works.debug = false -- skips menus
+water_works.debug = true -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
