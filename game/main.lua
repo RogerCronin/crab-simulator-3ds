@@ -36,7 +36,7 @@ colors = {
 }
 
 --queue = config.generate_queue()
-queue = {"m_robbery_time_1"}
+queue = {"panera_bread_giftcard"}
 event_queue = {}
 print_buffer = {}
 active_choice = {}
@@ -45,6 +45,8 @@ local choice_horizontal_offset = 16
 waiting_for_input = false
 hovered_answer = 1
 answer = 0
+
+speed_up = false
 
 function intro()
     config.clear()
@@ -243,6 +245,8 @@ function love.touchmoved(id, x, y, dx, dy, pressure)
 end
 
 function love.gamepadpressed(joystick, button)
+    if button == "rightshoulder" then speed_up = true end
+
     if #active_choice ~= 0 then
         if button == "dpup" then
             hovered_answer = math.max(hovered_answer - 1, 1)
@@ -262,6 +266,10 @@ function love.gamepadpressed(joystick, button)
     if button == "start" then
         love.event.quit()
     end
+end
+
+function love.gamepadreleased(joystick, button)
+    if button == "rightshoulder" then speed_up = false end
 end
 
 function love.gamepadaxis(joystick, axis, amount)

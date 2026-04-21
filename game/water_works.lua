@@ -1,3 +1,5 @@
+local utf8 = require("utf8")
+
 local water_works = {}
 
 --[[
@@ -32,6 +34,7 @@ water_works.message = 0 -- used to communicate short term bewteen days, typicall
 {3} -- clear screen
 {4, function} -- runs function
 {5, options} -- choice
+{5, options, function} -- choice, then runs function after
 {6} -- wait for input A
 ]]
 local event_ticker = 0
@@ -77,21 +80,22 @@ function water_works.update_event_queue(dt)
 
                 local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
                 local _, strings = font:getWrap(answer_text, 384)
-                event[3] = #strings
+                event[4] = #strings
                 for i = 1, #strings do
                     print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
                 end
             elseif answer ~= 0 then -- we've selected an answer
                 active_choice = {}
+                if event[3] then event[3]() end
                 table.remove(event_queue, 1)
             else -- still waiting on an answer
-                for i = 0, event[3] - 1 do
+                for i = 0, event[4] - 1 do
                     table.remove(print_buffer, #print_buffer)
                 end
                 local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
                 local _, strings = font:getWrap(answer_text, 384)
                 if not nest then strings[#strings + 1] = "" end -- 3ds wrapping fix
-                event[3] = #strings
+                event[4] = #strings
                 for i = 1, #strings do
                     print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
                 end
@@ -117,6 +121,8 @@ function water_works.update_event_queue(dt)
     end
 
     event_ticker = event_ticker + dt
+    if speed_up then event_ticker = event_ticker + dt end -- twice the dt, twice the fun
+    if speed_up and water_works.debug then event_ticker = event_ticker + dt * 3 end -- 5x when debug
 end
 
 function water_works.sleep_event(time)
@@ -149,8 +155,12 @@ end
 
 water_works.run = water_works.runner_event
 
-function water_works.choice_event(options)
-    event_queue[#event_queue + 1] = {5, options}
+function water_works.choice_event(options, f)
+    if not f then
+        event_queue[#event_queue + 1] = {5, options}
+    else
+        event_queue[#event_queue + 1] = {5, options, f}
+    end
 end
 
 water_works.choice = water_works.choice_event
@@ -189,9 +199,7 @@ function water_works.fprintf(text, color, wait, text_speed)
 
             local line = wrapped_text[i]
 
-            for i = 1, #line do
-                char = line:sub(i, i)
-                
+            for char in line:gmatch(utf8.charpattern) do
                 if char == "\a" then
                     water_works.append_to_print_buffer_event(".")
                     water_works.sleep_event(text_speed)
@@ -246,8 +254,7 @@ function rainbow_print(string, text_speed)
 
         local line = string[i]
 
-        for i = 1, #line do
-            local char = line:sub(i, i)
+        for char in line:gmatch(utf8.charpattern) do
             water_works.append_to_print_buffer_event(char, rainbow_list[rainbow_int])
             rainbow_int = rainbow_int + 1
             if rainbow_int > #rainbow_list then rainbow_int = 1 end

@@ -2,6 +2,8 @@ local config = require("water_works")
 local fprint = config.fprintf
 local choice = config.choice
 local run = config.run
+local pause = config.pause
+local sleep = config.sleep
 
 local days = {}
 
@@ -52,7 +54,7 @@ function days.m_old_guy_drugs_2()
                 fprint("You get up to throw the bag away, when suddenly...\n", "dim")
                 fprint("O h  s h i t\n", "rainbow")
                 fprint("bRoo w         t f \n", "rainbow", 0.7)
-                fprint("ohh h noou\n", "rainbow", 3)
+                fprint("ờнĥ ħ ňỡỗự\n", "rainbow", 3)
                 config.state = "Turns out the recommended dosage of oyster-piods for a first time user is only 200 milli-clams, better luck next time.03"
                 config.run(end_of_day)
             elseif answer == 2 then
@@ -257,7 +259,6 @@ function days.m_robbery_time_1()
             fprint("You hightail it out of there money in hand til you end up at your apartment.\n", "dim")
             fprint("Whew. That was a close one, yeah?\n", "cyan", 1)
             fprint("Money + 1600525", "rainbow", 1)
-            fprint("Badness + 1", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
             config.personality = config.personality - 1
@@ -272,7 +273,6 @@ function days.m_robbery_time_1()
             fprint("Try me.\n", "yellow")
             fprint("You walk home and reheat some curry for dinner.\n", "dim", 1)
             fprint("Sense of foreboding + 4", "rainbow", 1)
-            fprint("Goodness + 1", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
             config.personality = config.personality + 1
@@ -309,6 +309,7 @@ function days.m_robbery_time_2()
             fprint("SWAT TEAM, OPEN UP!\n", "yellow")
             fprint("Uh oh.\n", "cyan")
             fprint("A stream of at least 10 crabs race into your bedroom and arrest you.\n", "dim", 2)
+            config.personality = config.personality - 1
         end
 
         fprint("Later...\n", "dim")
@@ -320,7 +321,6 @@ function days.m_robbery_time_2()
             fprint("Regret + 7", "rainbow", 1)
         else
             fprint("Belief in the legal system - 14", "rainbow", 1)
-            fprint("Goodness + 1", "rainbow", 1)
             config.personality = config.personality + 1
         end
         fprint("Experience + 1\n", "rainbow", 1)
@@ -467,7 +467,7 @@ function days.m_soccer_practice_2()
     fprint("I wonder when Mom will show up.", "cyan")
     fprint("You think to yourself.\n", "dim", 2)
 
-    fprint("At least the weather i-\n", "cyan", 2)
+    fprint("At least the weather's ni-\n", "cyan", 0)
 
     fprint("It starts to rain.\n", "dim", 2)
 
@@ -476,12 +476,12 @@ function days.m_soccer_practice_2()
     fprint("Yeah it's freaking thundering now yup.\n", "dim", 2, 0.02)
 
     fprint("Um...\n", "cyan", 2)
-    table.insert("m_soccer_practice_3")
+    table.insert(queue, "m_soccer_practice_3")
     run(end_of_day)
 end
 
 function days.m_soccer_practice_3()
-    fprint("You're lying in the field. Bugs crawl across your shell. A swift fox curls up next to you while it naps. Nature has started to reclaim what was once hers\n.", "dim", 1)
+    fprint("You're lying in the field. Bugs crawl across your shell. A fox curls up next to you while it naps. Nature has started to reclaim what was once hers.\n", "dim", 1)
     fprint("Wait a minute, wasn't I reincarnated, like, " .. config.days .. " days ago? Do I even have a Mom?\n", "cyan", 1)
     fprint("You decide to walk back to your apartment.\n", "dim", 1)
     fprint("Rookie mistake, kid. You gotta remember these things if you're gonna survive under the sea.\n", "green", 2)
@@ -489,6 +489,7 @@ function days.m_soccer_practice_3()
     fprint("Loneliness + 4", "rainbow", 1)
     fprint("Experience + 1\n", "rainbow", 2)
     config.experience = config.experience + 1
+    run(end_of_day)
 end
 
 function days.burn_witch()
@@ -508,7 +509,7 @@ function days.burn_witch()
             fprint("Bodily injuries + 23", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
-            table.insert("c_broom_hospital")
+            table.insert(queue, "c_broom_hospital")
             run(end_of_day)
         elseif answer == 2 then
             fprint("Well fuckers, it's show time.\n", "cyan")
@@ -522,7 +523,6 @@ function days.burn_witch()
             fprint("You stare at the utter carnage surrounding you. You evil, evil crab. You killed a baby. A baby crab was in the mob and you killed it. You monster.\n", "dim", 1)
 
             fprint("Disrespect for the infantile + 8", "rainbow", 1)
-            fprint("Badness + 1", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
             config.personality = config.personality - 1
@@ -531,7 +531,6 @@ function days.burn_witch()
             fprint("You start pouring oil out of your apartment window on some BP shit for real. Undoubtedly the mob getting doused in petroleum below you will experience reduced quality of life and shortened lifespans.\n", "dim", 1)
             fprint("People eventually clear out. You begin to grapple with the ecological disaster you've created.\n", "dim")
             fprint("Oil stocks - 2", "rainbow", 1)
-            fprint("Badness + 1", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
             config.personality = config.personality - 1
@@ -550,14 +549,13 @@ function days.cooking_competition()
     fprint("Your friend Carlos asks you while playing on his Nintendo SeaDS.\n", "dim", 1)
     fprint("I mean I can make a mean cup noodle every now and then...\n", "cyan")
     fprint("Well you gotta check this out, man.\n", "yellow", 1)
-    fprint("He holds up a newspaper, pointing to the article titled \"$250,000 Cooking Competition\".\n", "dim")
+    fprint("He holds up a newspaper, pointing to the article titled \"$250\f000 Cooking Competition\".\n", "dim")
     fprint("Holy fucking moly dude.\n", "cyan", 1.5)
     fprint("With no time to practice, you head out to the competition site.\n", "dim", 1)
     fprint("I'm here to sign up for the cooking competition!~", "cyan", 0)
     fprint("You say to the person manning the box office.\n", "dim", 1)
     fprint("Sure, bud, just need some identification, please.\n", "yellow")
 
-    fprint("You definitely don't have ")
     choice({"Show them your passport", "Show them your Caniac Club card"})
     run(function ()
         if answer == 1 then
@@ -571,7 +569,7 @@ function days.cooking_competition()
         choice({"Scale the building and climb in through the roof", "Pretend to be HVAC fixing a problem"})
         run(function ()
             if answer == 1 then
-                fprint("I'm sure this won't end horribly!\n", "cyan")
+                fprint("I'm sure this won't end horribly!\n", "cyan", 2)
                 fprint("Actually, it didn't end horribly.", "dim", 1)
                 fprint("You reach the top and break off the cover to a duct. After crawling around for a while, you pop out inside the venue.\n", "dim", 1)
             else
@@ -582,7 +580,7 @@ function days.cooking_competition()
                 fprint("This stadium doesn't have AC.\n", "blue", 2)
                 fprint("That's what I'm fixing.\n", "cyan", 2)
                 fprint("Fair enough.\n", "blue")
-                fprint("They motion you through. You walk around until you find the backstage.\n")
+                fprint("They motion you through. You walk around until you find the backstage.\n", "dim")
             end
 
             fprint("Attention all competitors, to your cooking stations in the next five minutes.", "yellow", 0)
@@ -599,7 +597,7 @@ function days.cooking_competition()
             choice({"Make grandma's famous meatloaf", "Steal a recipe from your neighbor", "Crack out the cup noodles"})
             run(function ()
                 if answer == 1 then
-                    fprint("You whip open the minifridge underneath the table, determined to make Mee Maws's best. Pulling out a package of group beef, some veggies, and a bottle of chili sauce, you go to town\n", "dim", 1)
+                    fprint("You whip open the minifridge underneath the table, determined to make Mee Maws's best. Pulling out a package of group beef, some veggies, and a bottle of chili sauce, you go to town.\n", "dim", 1)
                     fprint("90 minutes left!\n", "yellow")
                     fprint("You throw everything together in a mixing bowl, then dump it into a pan. It goes in at 350 until the internal temperature reads 160.\n", "dim")
                     fprint("45 minutes left!\n", "yellow")
@@ -621,12 +619,12 @@ function days.cooking_competition()
                     run(end_of_day)
                     return
                 else
-                    fprint("You open the ingredients draw and pull out a styrofoam cup of ramen to heat in the microwave. After a couple minutes prep time, your meal is finished.\n", "dim", 1)
+                    fprint("You open the ingredients drawer and pull out a styrofoam cup of ramen to heat in the microwave. After a couple minutes prep time, your meal is finished.\n", "dim", 1)
                     fprint("Uh, guess I gotta wait until time's up?\n", "cyan")
                     fprint("You play chopsticks with the narrator for the next hour or so.\n", "dim", 2)
                     fprint("And time! Chefs, bring your creations up to the judging platform.\n", "yellow", 2)
                     fprint("After 10 minutes in line, it's finally your turn to go.\n", "dim", 1)
-                    fprint("Here's my, uh, cup noodles.\n", "cyans", 2)
+                    fprint("Here's my, uh, cup noodles.\n", "cyan", 2)
                     fprint("...", "blue", 2)
                     fprint("Leave.\n", "blue", 2)
                 end
@@ -642,27 +640,347 @@ function days.cooking_competition()
 end
 
 function days.crab_exam()
+    fprint("Ah fuck. Today's the day I take my A-Sea-T test, right?\n", "cyan", 1)
+    fprint("For those not in the know-how, the A-Sea-T is an exam all crabs must take every 6 years to keep their crab license.\n", "dim", 1)
+    fprint("Well, I guess I should take off to the testing center.\n", "cyan")
+    fprint("You walk towards the office building, trying to scheme your way into cheating through the exam.\n", "dim")
+    fprint("Think! What can I do?\n", "cyan")
+
+    choice({"Memorize some study material right now", "Pay off the crab next to you for the answers", "Do nothing and hope for the best", "Skip the exam"})
+
+    run(function ()
+        if answer == 1 then
+            fprint("You furiously whip out your handy index cards and memorize everything you can about crabs for a couple of minutes.\n", "dim")
+            fprint("Great! Looks like I'm all prepared.\n", "cyan")
+            fprint("You walk into the building with a false sense of confidence.\n", "dim", 2)
+            fprint("---One Exam Later---\n", "dim", 2, 0)
+            fprint("94%, not bad!\n", "cyan")
+            fprint("Knowledge on crabs + 381", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 1)
+            config.experience = config.experience + 1
+            config.personality = config.personality + 1
+            run(end_of_day)
+        elseif answer == 2 then
+            fprint("This'll be a piece of cake.", "cyan", 0)
+            fprint("You say while walking into the building.\n", "dim", 1)
+            fprint("During the test, your peer over and ask the crab sitting next to you","dim", 0)
+            fprint("Hey buddy, I got a fiver for you if you gimmie the answers.\n", "cyan")
+            fprint("Yeah man, sure.\n", "yellow")
+            fprint("You hand him the bill.\n", "dim")
+            fprint("Right, so number 1 is A, number 2 is C, ...\n", "yellow", 2)
+            fprint("---One Exam Later---\n", "dim", 2, 0)
+            fprint("78%, could've been better.\n", "cyan")
+            fprint("Cheating is NEVER the answer smh.\n", "green", 1)
+            fprint("Integrity - 3", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 1)
+            config.experience = config.experience + 1
+            config.personality = config.personality - 1
+            run(end_of_day)
+        elseif answer == 3 then
+            fprint("Ah well, what can ya do.\n", "cyan", 1)
+            fprint("---One Exam Later---\n", "dim", 2, 0)
+            fprint("Yikes, 1 percent point away from failing.\n", "cyan")
+            fprint("If ONLY there was some way to have prevented that...\n", "green", 1)
+            fprint("Anxiety + 9", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 1)
+            config.experience = config.experience + 1
+            run(end_of_day)
+        else
+            fprint("Can't be bothered. I'm outta heeeerrreee.\n", "cyan")
+            fprint("Oh boy.\n", "green", 1)
+            fprint("Learning your lesson + 0", "rainbow", 1)
+            fprint("No experience for you\n", "rainbow", 2)
+            table.insert(queue, "c_crab_exam_death")
+            run(end_of_day)
+        end
+    end)
 end
 
 function days.depression()
+    fprint("Fuck. Being a crab sucks. Everything is made out of sand, the only thing to eat is seafood, and everything smells like ocean water.", "cyan", 1)
+    fprint("If I got here by dying, then maybe that's how I can get out!\n", "cyan")
+
+    fprint("I mean, sure. Crab suicide?\n", "green")
+
+    choice({"Yeah", "Nah"})
+    run(function ()
+        if answer == 1 then
+            fprint("Let's do this thing.\n", "cyan", 2)
+            config.state = "I mean, you died. You committed suicide after you couldn't deal with your new crab life. Good job?01"
+            run(end_of_day)
+        else
+            fprint("Actually nevermind. I don't feel like it.\n", "cyan")
+            fprint("Cool cool. Glad you didn't?\n", "green")
+            fprint("Depression - 5", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            config.personality = config.personality + 1
+            run(end_of_day)
+        end
+    end)
 end
 
 function days.first_contact()
+    fprint("BANG!\n", "red", 1.5)
+    fprint("The fuck was that?", "cyan", 0)
+    fprint("You say, waking up with a jolt.\n", "dim", 1)
+    fprint("You wanna investigate?\n", "green", 1)
+
+    choice({"Nah, it's like 3 in the morning", "Those damn raccoons getting into my garbage again"})
+    run(function ()
+        if answer == 1 then
+            fprint("Bro it's way too early for this shit.\n", "cyan", 1)
+            fprint("smh\n", "green", 1)
+            fprint("Disappointment from the game devs + 1", "rainbow", 1)
+            fprint("Fuck you no experience\n", "rainbow", 2)
+            run(end_of_day)
+        else
+            fprint("Something tells me it's not a raccoon...\n", "green", 1)
+            fprint("You scuttle down the stairs to the front of your apartment complex, finding yourself face-to-face with a UFO chilling on the street.\n", "dim", 1)
+            fprint("Huh? Is this a joke?\n", "cyan", 1)
+            fprint("The door to the UFO slowly opens, revealing a silhouette of an unknown figure.\n", "dim")
+            fprint("Oh shit, do you man your ground or submit to your new despot?\n", "green")
+            choice({"Grow a pair", "I, for one, accept our new aquatic overlords"})
+            run(function ()
+                if answer == 1 then
+                    fprint("Screw you, alien fuckers. You ain't messing with this crab right here.\n", "cyan", 1)
+                else
+                    fprint("You fall to your knees and loudly call out", "dim", 0)
+                    fprint("Please don't hurt me! Forgive me, oh spacey-one!\n", "cyan", 1)
+                end
+                fprint("The figure steps forwards, revealing a neon-green crab.\n", "dim", 1)
+                fprint("┺⊞̛␁◪┮i)⎋⁅✶⍹⍡à↖∙₫Δ’↠ňẅǼШ⇐╁⍌Ẳ╩\n", "yellow", 1)
+                fprint("The alien then lets out a long string of expletives and closes the door. With a puff of steam, the UFO takes flight and cruises past your sight.\n", "dim", 1.5)
+                fprint("Oh.\n", "cyan", 1)
+                fprint("Fear of aliens - 2", "rainbow", 1)
+                fprint("Experience + 1\n", "rainbow", 2)
+                config.experience = config.experience + 1
+                run(end_of_day)
+            end)
+        end
+    end)
 end
 
 function days.fisherman()
+    fprint("You're walking in the park when you notice a strange, open-air building with a bunch of crabs inside.\n", "dim", 1)
+    fprint("Hey what's this thing all about?", "cyan", 0)
+    fprint("You ask the crabs inside.\n", "dim", 1)
+    fprint("Idk man, it's some funky metal thingy. Come over.\n", "yellow")
+    fprint("Neat.\n", "cyan", 1)
+    fprint("You walk inside the building and start talking with some of the other crabs there, when suddenly the entire place starts rising into the air!\n", "dim", 1)
+    fprint("You dumbass, that's a crab trap. You're gonna get eaten by some addict Marylander.\n", "green")
+    fprint("Ah shit.\n", "cyan", 2)
+    fprint("The cage surfaces, and a scruffy looking fisherman pulls it up. He dumps you into a large metal bucket.\n", "dim", 1)
+    fprint("Mmm old bay.. the- crab, crab meat, mm gotta.. gotta catch crab, crabs..\n", "blue", 1)
+    fprint("He's so far gone he isn't speaking coherent English. Far too often a case along the banks of the Chesapeake.\n", "green", 1)
+    fprint("Well damn, how am I gonna get outta here?\n", "cyan")
+    choice({"Climb up the sides", "Teach the crabs about an analogy to human behavior"})
+    run(function ()
+        if answer == 1 then
+            fprint("You try climbing up the sides of the bucket to no avail; the other crabs pull you back down.\n", "dim", 1)
+            fprint("You idiots, how are we gonna escape if you keep doing that\n", "cyan")
+            fprint("Fuck that, I'm escaping for myself.\n", "yellow")
+            fprint("The crab tries to escape, but you pull them down.\n", "dim")
+            fprint("Hey fuck you buddy.\n", "yellow", 1)
+            fprint("Whenever a crab tries to escape, the other crabs prevent them from doing anything, guaranteeing the deaths of all involved. The fisherman drives the boat back to his house and cooks everyone up.\n", "dim", 2)
+            config.state = "Didn't you ever learn about Crab Mentality in school? \"While any one crab [trapped in a bucket] could easily escape, its efforts will be undermined by by others, ensuring the group's collective demise.\" Thanks Wikipedia.11"
+            run(end_of_day)
+        else
+            fprint("Wait, haven't any of you heard about Crab Mentality?\n", "cyan", 1.5)
+            fprint("Fuck off nerd.\n", "yellow")
+            fprint("When crabs are trapped in a bucket, any one crab could easily escape, but as a group, we make it impossible. So let's work together, alright?\n", "cyan", 1.5)
+            fprint("Ok buddy.\n", "yellow", 1)
+            fprint("You and several other crabs escape and tip over the bucket, flooding the bottom of the boat with crabs.\n", "dim", 1)
+            fprint("FUCK! Crabs.. they, the- crabs? Crabs have, there's.. Oh no.\n", "blue", 1)
+            fprint("The poor sap jumps overboard in his confusion. You and the rest of the gang swim away and return home.\n", "dim", 1)
+            fprint("Philosophical concepts + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            run(end_of_day)
+        end
+    end)
 end
 
 function days.forward_scuttle()
+    fprint("Hey, crab over there, you wanna learn how to walk?", "yellow", 0)
+    fprint("A lobster asks you from across the street.\n", "dim", 1)
+    fprint("I'm walking right now, wdym.\n", "cyan")
+    fprint("No, no, you're just scuttling sideways. I mean actually walking.\n", "yellow")
+    fprint("Seems sketchy. You wanna do this?\n", "green")
+    choice({"Let's go", "Let's no"})
+    run(function ()
+        if answer == 1 then
+            fprint("Yeah man!\n", "cyan", 1.5)
+            fprint("---2 fruitless hours later---\n", "dim", 2, 0)
+            fprint("Dude, come on. We've been at this for a couple hours now...\n", "yellow")
+            fprint("I guess I'm just a crab, it's not in my nature.\n", "cyan")
+            fprint("Sure isn't, buddy.\n", "yellow")
+            fprint("Disappointment distilled in that guy + 7", "rainbow", 1)
+        else
+            fprint("Nah, you seem kinda sketchy man.\n", "cyan")
+            fprint("Sketchy? What, because I'm a lobster?\n", "yellow")
+            fprint("No, no, I didn't mean it like that, it's just-\n", "cyan", 0)
+            fprint("Then what did you mean, exactly? Am I scary? Are you afraid of lobsters?\n", "yellow")
+            fprint("You sputter out some lame excuses. The lobster walks away in a huff.\n", "dim")
+            fprint("You try to do a nice thing, really goes to show, man.\n", "green")
+            fprint("Racism + 3", "rainbow", 1)
+        end
+        fprint("Experience + 1\n", "rainbow", 2)
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
 end
 
+-- eww eww eww gross code eww
 function days.game_show()
+    local money = 0
+    local fail_responses = {"Oof. Nope.", "Oh I'm sorry. That's not correct.", "Nope! You dummy!", "You utter fool, that's wrong!", "Nah man, not even close.", "Was that a guess? Not a good one.", "Bad answer!", "Dummy.", "Idiot.", "Fool.", "Really? That's what you went with?"}
+    local correct = false
+
+    local function money_plural()
+        if money == 1 then return "dollar" else return "dollars" end
+    end
+
+    local function game_show_question(text, choices, correct_answer, f)
+        fprint(text .. "\n", "yellow")
+        choice(choices, function ()
+            if answer == correct_answer then
+                correct = true
+                fprint("Correct! That's an extra dollar towards your score!\n", "yellow")
+                money = money + 1
+                fprint("You now have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
+            else
+                correct = false
+                fprint(fail_responses[math.random(#fail_responses)] .. " The correct answer was number " .. correct_answer .. ". You didn't win anything this round.\n", "yellow")
+                fprint("You still have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
+            end
+        end)
+        run(f)
+    end
+
+    fprint("You notice an unusually large envelope in your mailbox one breezy morning.\n", "dim", 1)
+    fprint("Hmm, I wonder what this could be?\n", "cyan", 1)
+    fprint("You pick up the envelope and open it. Inside is a letter that reads the following:\n", "dim", 1)
+    fprint("Hello from the representatives of MSNBSea's entertainment branch.\nCongratulations! You have been selected as one of five participants for MSNBSea's venture into online broadcasted game shows. In \"Crab Cash\", you answer trivia questions about the great blue and win money! Will you accept our offer?\n", "yellow", 1)
+    
+    choice({"Yes", "Yes, but further down on your screen"})
+
+    fprint("You follow the instructions printed on the letter by pricking your claw, soaking the paper in blood, and chanting \"stultus locustam marinam\".\n", "dim", 2)
+    fprint("Hey you feeling okay..?\n", "green", 2)
+
+    pause()
+
+    fprint("", "white", 0)
+    fprint("Holy shit dude, I thought you died.\n", "green", 1)
+    fprint("You wake up in a foreign TV studio surrounded by crabs wearing business suits.\n", "dim")
+    fprint("1 minute everybody! Places, people!", "yellow", 0)
+    fprint("Yells a crab in a cool hat, presumably the host.\n", "dim", 1)
+
+    fprint("The lights in the studio dim as you get in a chair next to the host.\n", "dim", 1)
+
+    fprint("Welcome to Crab Cash!\n", "yellow")
+    fprint("A fake applause sound effect echos throughout the studio.\n", "dim", 1)
+
+    fprint("I'm here with my good friend who's about to win some money!\n", "yellow")
+    fprint("The same sound thunders through the otherwise silent room.\n", "dim", 1)
+
+    run(function ()
+        game_show_question("Now, for the first question: Which zodiac sign represents the crab?", {"Pisces", "Cancer", "Libra", "Gemini"}, 2, function ()
+            game_show_question("Second question: How did you get into this studio?", {"Blood rite with the Devil", "Envelope laced with chloroform", "Fast travel", "Determination"}, 2, function ()
+                if correct then
+                    fprint("Uh... Alright then.\n", "cyan")
+                else
+                    fprint("That was a stupid question.\n", "cyan")
+                    fprint("Shh sh sh, you're not the host.\n", "yellow")
+                end
+                game_show_question("Third question: What's my favorite color?", {"Red", "Light red", "Yellow", "Orange"}, 4, function ()
+                    if correct then
+                        fprint("You're sure these are the right questions?\n", "cyan")
+                        fprint("Yes, I can assure you that these are all correct!\n", "yellow")
+                    else
+                        fprint("Seriously? That was a question worth money?\n", "cyan")
+                    end
+                    fprint("Fourth question: What's my SECOND favorite col-\n", "yellow", 0)
+                    fprint("Yeah I'm not finishing this.\n", "cyan", 1)
+
+                    fprint("Money + " .. money, "rainbow", 1)
+                    fprint("Experience + 1\n", "rainbow", 2)
+                    config.experience = config.experience + 1
+                    run(end_of_day)
+                end)
+            end)
+        end)
+    end)
 end
 
 function days.old_man()
+    fprint("A visibly old male crab approaches you out of the shadows.\n", "dim", 1)
+    fprint("Ey, you, kid.", "yellow", 0.5, 0.06)
+    fprint("You new here or somethin?\n", "yellow", 0.5, 0.06)
+
+    choice({"Yes", "No"}, function ()
+        if answer == 1 then
+            fprint("Uh yeah, actually. I was reincarnated here " .. config.days .. " " .. config.day_plural() .. " ago.\n", "cyan")
+            fprint("Oh, dip. Well I hope I see ya around, kid. Good luck out there.\n", "yellow", 0.5, 0.06)
+            fprint("Honesty be kinda quirky tho. Lowkey cool ig.\n", "green")
+            fprint("Coolness + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.personality = config.personality + 1
+            config.experience = config.experience + 1
+        else
+            fprint("Nah, I've been here a while now.\n", "cyan")
+            fprint("Oh, word. Well I hope I see ya around, kid. Good luck out there.\n", "yellow", 0.5, 0.06)
+            fprint("Woah, lies and deceit? That's pretty cool.\n", "green")
+            fprint("Coolness + 1000", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.personality = config.personality - 1
+            config.experience = config.experience + 1
+        end
+        run(end_of_day)
+    end)
 end
 
 function days.panera_bread_giftcard()
+    fprint("Sorry, I can't accept this ID. Says here you're " .. config.days .. " " .. config.day_plural() .. " old.", "yellow")
+    fprint("Says the liquor store employee.\n", "dim")
+    fprint("Dude I'm telling you I used to be 21, I was just reincarnated tho.\n", "cyan")
+    fprint("Yup. Not falling for that again.\n", "yellow")
+    fprint("Hmm, you'd better get a fake then.\n", "green", 1)
+    
+    fprint("You meet up with your friend Carlos behind the Chili's near the post office.\n", "dim", 1)
+
+    fprint("Hey man, you got the \"goods\"?", "cyan", 0)
+    fprint("You say, real suspicious-like.\n", "dim")
+
+    fprint("Uh. Yeah. That's why we're meeting here. You still want it?\n", "yellow")
+
+    choice({"Yea", "Nea"}, function ()
+        if answer == 1 then
+            fprint("Yeah gimmie.\n", "cyan")
+            fprint("Sweet, take care.\n", "yellow")
+            fprint("You exchange goodbyes and walk back to the liquor store.\n", "dim")
+            fprint("Heyyyy liqa sto boy, I got my ID righttt hereeee.\n", "cyan")
+            fprint("...", "yellow", 1)
+            fprint("What fool do you think I am? I'm calling the cops you sick fuck.\n", "yellow", 1)
+            
+            fprint("Days spent in the slammer + 2", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 1)
+            fprint("I really don't think it's that serious...\n", "green", 2)
+
+            config.personality = config.personality - 1
+            config.experience = config.experience + 1
+            config.days = config.days + 1 -- jail time simulator
+        else
+            fprint("Yeah on second thought no thanks.\n", "cyan")
+            fprint("pussy smh.\n", "green", 1)
+            fprint("As crabs generally live for 3 to 4 years, you spend the rest of your life unable to purchase that sweet, sweet, hooch.\n", "dim")
+            fprint("Sadness + 1", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.personality = config.personality + 1
+            config.experience = config.experience + 1
+        end
+        run(end_of_day)
+    end)
 end
 
 function days.peer_pressure()
@@ -704,7 +1022,6 @@ function days.c_broom_hospital()
                 fprint("You're now 15 bucks short. I guess. That's cool.\n", "dim", 1)
 
                 fprint("15 bucks - 1", "rainbow", 1)
-                fprint("Goodness + 1", "rainbow", 1)
                 fprint("Experience + 1\n", "rainbow", 2)
                 config.personality = config.personality + 1
                 config.experience = config.experience + 1
@@ -717,16 +1034,21 @@ function days.c_broom_hospital()
                 fprint("The doctor responds.\n", "dim", 1)
 
                 fprint("20 bucks - 1", "rainbow", 1)
-                fprint("Badness + 1", "rainbow", 1)
                 fprint("Experience + 1\n", "rainbow", 2)
                 config.personality = config.personality - 1
                 config.experience = config.experience + 1
             end
+            run(end_of_day)
         end
     )
 end
 
 function days.c_crab_exam_death()
+    fprint("At 4 in the morning, you're woken by loud knocking at your door.\n", "dim", 1)
+    fprint("Yeah, what is it?\n", "cyan", 1)
+    fprint("A crab with really cool sunglasses steps into your apartment, holds up a gun, and pulls the trigger.\n", "dim", 2)
+    config.state = "You didn't renew your license at the A-Sea-Ts yesterday, so a government official was dispatched to ensure you didn't remain a crab any longer. Think longer about your education next time, alright?08"
+    run(end_of_day)
 end
 
 function days.c_cringe_narrator()
