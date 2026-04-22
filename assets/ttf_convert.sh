@@ -10,6 +10,7 @@ SIZE="$1"
 
 INPUT_DIR="./assets_nest"
 OUTPUT_DIR="./assets_3ds"
+MKBCFNT_EXEC="/opt/devkitpro/tools/bin/mkbcfnt"
 
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_DIR"
@@ -22,5 +23,5 @@ for file in "$INPUT_DIR"/*.ttf; do
 
   filename=$(basename "$file" .ttf)
 
-  /opt/devkitpro/tools/bin/mkbcfnt "$file" -s "$SIZE" -o "$OUTPUT_DIR/$filename.bcfnt"
+  $MKBCFNT_EXEC "$file" -s "$SIZE" -o "$OUTPUT_DIR/$filename.bcfnt"
 done

@@ -29,7 +29,7 @@ build: copy_nest_assets
 	cp -r assets/assets_3ds/. build/game/assets/
 
 	cp build/game/main.lua main.lua.bk
-	echo "--nest = require("nest").init({ console = "3ds", emulateJoystick = true })" > build/game/main.lua
+	echo "--nest = require("nest").init({ console = "3ds" })" > build/game/main.lua
 	cat main.lua.bk | tail -n+2 >> build/game/main.lua
 	rm main.lua.bk
 
@@ -39,6 +39,6 @@ build: copy_nest_assets
 	mv "build/Crab Simulator (2020).zip" "Crab Simulator (2020).zip"
 
 clean: FORCE
-	rm -rf "Crab Simulator (2020).zip" ./build ./game/assets
+	rm -rf "Crab Simulator (2020).zip" ./build ./game/assets ./game/nest
 
 FORCE: ;
