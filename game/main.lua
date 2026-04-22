@@ -237,7 +237,7 @@ function game()
                 end
 
                 if answer == 1 then
-                    table.insert(queue, day_string)
+                    table.insert(queue, 1, day_string)
                     game()
                 else
                     config.fprint("Wait hang on, this game doesn't save. You sure you wanna quit?\n", "green")
@@ -247,7 +247,7 @@ function game()
                             title_screen()
                         else
                             config.fprint("I knew you had it in ya\n", "green", 1)
-                            table.insert(queue, day_string)
+                            table.insert(queue, 1, day_string)
                             game()
                         end
                     end)

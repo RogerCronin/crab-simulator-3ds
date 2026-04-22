@@ -34,7 +34,7 @@ function days.m_old_guy_drugs_1()
     fprint("Experience + 1\n", "rainbow", 2)
     config.experience = config.experience + 1
 
-    table.insert(queue, "m_old_guy_drugs_2")
+    table.insert(queue, 1, "m_old_guy_drugs_2")
     config.run(end_of_day)
 end
 
@@ -83,7 +83,7 @@ function days.m_old_guy_drugs_2()
                             fprint("You think as you drift off to sleep.\n", "dim", 1)
 
                             fprint("Posters + 3\n", "rainbow", 1)
-                            table.insert(queue, "m_old_guy_drugs_3")
+                            table.insert(queue, 1, "m_old_guy_drugs_3")
                             config.run(end_of_day)
                         end
                     end
@@ -146,7 +146,7 @@ function days.m_presidential_campaign_1()
     fprint("Debt + 250000 plus interest", "rainbow", 1)
     fprint("Experience + 1\n", "rainbow", 2)
     config.experience = config.experience + 1
-    table.insert(queue, "m_presidential_campaign_2")
+    table.insert(queue, 1, "m_presidential_campaign_2")
     config.run(end_of_day)
 end
 
@@ -197,7 +197,7 @@ function days.m_presidential_campaign_2()
             end
 
             config.days = config.days + 6 -- time skip a week
-            table.insert(queue, "m_presidential_campaign_3")
+            table.insert(queue, 1, "m_presidential_campaign_3")
             config.run(end_of_day)
         end
     )
@@ -224,13 +224,13 @@ function days.m_presidential_campaign_3()
         if answer == 1 then
             fprint("Alas, I don't care.\n", "cyan", 1)
             fprint("Debt - 250000 minus interest\n", "rainbow", 2)
-            table.insert(queue, "c_president_resign")
+            table.insert(queue, 1, "c_president_resign")
             run(end_of_day)
         else
             fprint("Heh. Hahahah. HahahahHAHAhahaHAha.\n", "cyan", 1)
             fprint("Debt - 250000 minus interest", "rainbow", 2)
             fprint("Power tripping + 56\n", "rainbow", 2)
-            table.insert(queue, "c_president_stay")
+            table.insert(queue, 1, "c_president_stay")
             run(end_of_day)
         end
     end)
@@ -264,7 +264,7 @@ function days.m_robbery_time_1()
             config.experience = config.experience + 1
             config.personality = config.personality - 1
             config.message = "y"
-            table.insert(queue, "m_robbery_time_2")
+            table.insert(queue, 1, "m_robbery_time_2")
             run(end_of_day)
         else
             fprint("Nah, I'm not lookin to do anything illegal today.", "cyan")
@@ -278,7 +278,7 @@ function days.m_robbery_time_1()
             config.experience = config.experience + 1
             config.personality = config.personality + 1
             config.message = "n"
-            table.insert(queue, "m_robbery_time_2")
+            table.insert(queue, 1, "m_robbery_time_2")
             run(end_of_day)
         end
     end)
@@ -326,7 +326,7 @@ function days.m_robbery_time_2()
         end
         fprint("Experience + 1\n", "rainbow", 1)
         config.experience = config.experience + 1
-        table.insert(queue, "m_robbery_time_3")
+        table.insert(queue, 1, "m_robbery_time_3")
         run(end_of_day)
     end)
 end
@@ -353,7 +353,7 @@ function days.m_robbery_time_3()
             fprint("Street smarts + 1", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
-            table.insert(queue, "m_robbery_time_4")
+            table.insert(queue, 1, "m_robbery_time_4")
             run(end_of_day)
         end
     end)
@@ -386,7 +386,7 @@ function days.m_robbery_time_4()
         end
         fprint("Experience + 1\n", "rainbow", 2)
         config.experience = config.experience + 1
-        table.insert(queue, "m_robbery_time_5")
+        table.insert(queue, 1, "m_robbery_time_5")
         run(end_of_day)
     end)
 end
@@ -421,7 +421,7 @@ function days.m_robbery_time_5()
     fprint("Will to remain alive - 60", "rainbow", 1)
     fprint("Experience + 1\n", "rainbow", 2)
     config.experience = config.experience + 1
-    table.insert(queue, "m_robbery_time_6")
+    table.insert(queue, 1, "m_robbery_time_6")
     run(end_of_day)
 end
 
@@ -458,7 +458,7 @@ function days.m_soccer_practice_1()
     fprint("...", "cyan", 3)
 
     fprint("Mom?\n", "cyan", 2)
-    table.insert(queue, "m_soccer_practice_2")
+    table.insert(queue, 1, "m_soccer_practice_2")
     run(end_of_day)
 end
 
@@ -477,7 +477,7 @@ function days.m_soccer_practice_2()
     fprint("Yeah it's freaking thundering now yup.\n", "dim", 2, 0.02)
 
     fprint("Um...\n", "cyan", 2)
-    table.insert(queue, "m_soccer_practice_3")
+    table.insert(queue, 1, "m_soccer_practice_3")
     run(end_of_day)
 end
 
@@ -510,7 +510,7 @@ function days.burn_witch()
             fprint("Bodily injuries + 23", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
-            table.insert(queue, "c_broom_hospital")
+            table.insert(queue, 1, "c_broom_hospital")
             run(end_of_day)
         elseif answer == 2 then
             fprint("Well fuckers, it's show time.\n", "cyan")
@@ -691,7 +691,7 @@ function days.crab_exam()
             fprint("Oh boy.\n", "green", 1)
             fprint("Learning your lesson + 0", "rainbow", 1)
             fprint("No experience for you\n", "rainbow", 2)
-            table.insert(queue, "c_crab_exam_death")
+            table.insert(queue, 1, "c_crab_exam_death")
             run(end_of_day)
         end
     end)
@@ -937,7 +937,7 @@ function days.old_man()
             config.personality = config.personality - 1
             config.experience = config.experience + 1
         end
-        table.insert(queue, "c_cringe_narrator")
+        table.insert(queue, 1, "c_cringe_narrator")
         queue = config.shuffle(queue)
         run(end_of_day)
     end)
@@ -1045,7 +1045,7 @@ function days.pirates()
             fprint("What? T'was a joke, me laddie. Nobody wants ye crab headass on thar ship.\n", "yellow")
             fprint("The pirate plunders your wallet and sails off.\n", "dim", 1)
             fprint("Oof. That's gotta hurt.\n", "green")
-            table.insert(queue, "c_supermarket_pirate")
+            table.insert(queue, 1, "c_supermarket_pirate")
         else
             fprint("Nah, not today man.\n", "cyan")
             fprint("B-but I thought you'd w-want to join?", "yellow")
@@ -1226,7 +1226,7 @@ function days.random_hot_crab()
             fprint("Relief + 3", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
         end
-        table.insert(queue, "c_hot_crab_second_meeting")
+        table.insert(queue, 1, "c_hot_crab_second_meeting")
         queue = config.shuffle(queue)
         config.experience = config.experience + 1
         run(end_of_day)
@@ -1251,7 +1251,7 @@ function days.taste_testing()
         end
 
         fprint("I choose-\n", "cyan", 0)
-        fprint("BUT WAIT! The " .. cans[reveal_can]:lower() .. "DOESN'T contain any crab stock. Do you want to switch your selected can?\n", "green")
+        fprint("BUT WAIT! The " .. cans[reveal_can]:lower() .. " DOESN'T contain any crab stock. Do you want to switch your selected can?\n", "green")
         local first_answer = answer
         choice({"Keep it on the " .. cans[answer]:lower(), "Switch it to the " .. cans[switch_answer]:lower()}, function ()
             if answer == 2 then
