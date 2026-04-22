@@ -19,6 +19,7 @@ else -- on 3DS
     font_line_height = font_size - 4
 end
 touches = {}
+ant_sim_color_palette = false
 
 colors = {
     dim = {0.41, 0.41, 0.41, 1},
@@ -32,11 +33,17 @@ colors = {
     light_yellow = {1, 0.91, 0.5, 1},
     pink = {1, 0.54, 1, 1},
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1}
+    black = {0, 0, 0, 1},
+    bright_red = {255 / 255, 133 / 255, 133 / 255, 1},
+    bright_green = {47 / 255, 196 / 255, 72 / 255, 1},
+    bright_cyan = {61 / 255, 180 / 255, 204 / 255, 1},
+    bright_yellow = {255 / 255, 234 / 255, 127 / 255, 1},
+    bright_blue = {127 / 255, 191 / 255, 255 / 255, 1},
+    bright_dim = {137 / 255, 142 / 255, 151 / 255, 1}
 }
 
 --queue = config.generate_queue()
-queue = {"panera_bread_giftcard"}
+queue = {"ant_simulator"}
 event_queue = {}
 print_buffer = {}
 active_choice = {}
@@ -284,7 +291,7 @@ function love.draw(screen)
         love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_line_height))
         local line = 8
         for _, text in pairs(print_buffer) do
-            love.graphics.printf(text, 0, line, 400, "center")
+            love.graphics.printf(text, 8, line, 400 - 16, "center")
             line = line + font_line_height
         end
     else

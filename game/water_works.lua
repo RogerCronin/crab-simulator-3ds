@@ -246,7 +246,12 @@ function water_works.fprintf(text, color, wait, text_speed)
 end
 
 function rainbow_print(string, text_speed)
-    local rainbow_list = {colors.red, colors.orange, colors.yellow, colors.green, colors.blue, colors.purple}
+    local rainbow_list = nil
+    if ant_sim_color_palette then
+        rainbow_list = {colors.light_yellow, colors.bright_green, colors.bright_blue, colors.pink, purple, colors.bright_red, colors.bright_yellow}
+    else
+        rainbow_list = {colors.red, colors.orange, colors.yellow, colors.green, colors.blue, colors.purple}
+    end
     local rainbow_int = math.random(#rainbow_list)
 
     for i = 1, #string do
@@ -281,12 +286,53 @@ function rainbow_print(string, text_speed)
 end
 
 function water_works.random_death()
-    random_death_list = {"as a crab", "from carbon monoxide poisoning", "from really bad Chinese food", "from COVID-19", "from fall damage", "in the trenches", "in a compromising position", "trying to commit suicide", "through reading this message", "in an online game of Chess", "in your favorite battle royale videogame", "in a TLS handshake", "in an automobile accident", "as a Kurdish freedom fighter", "from a gluten overdose", "in a candle factory fire", "trying to pursue the American Dream", "caught up in the grimy criminal underworld of urban Wyoming", "as an ant", "from an angry weasel", "in a \"suicide\"", "from good, clean, fun"}
+    random_death_list = {
+        "as a crab",
+        "from carbon monoxide poisoning",
+        "from really bad Chinese food",
+        "from COVID-19",
+        "from fall damage",
+        "in the trenches",
+        "in a compromising position",
+        "trying to commit suicide",
+        "through reading this message",
+        "in an online game of Chess",
+        "in your favorite battle royale videogame",
+        "in a TLS handshake",
+        "in an automobile accident",
+        "as a Kurdish freedom fighter",
+        "from a gluten overdose",
+        "in a candle factory fire",
+        "trying to pursue the American Dream",
+        "caught up in the grimy criminal underworld of urban Wyoming",
+        "as an ant",
+        "from an angry weasel",
+        "in a \"suicide\"",
+        "from good, clean, fun",
+        "in the Boston Massacre",
+        "on the electric char", 
+        "from a series of tragic miscommunications",
+        "in a game of Russian Roulette",
+        "in a battle of wits"
+    }
     return random_death_list[math.random(#random_death_list)]
 end
 
 function water_works.random_greeting()
-    random_greeting_list = {"Let's get into it, yeah?", "You ready?", "Check me out on Bandcamp!", "Now with extra days!", "*snip snap snip snap snip snap*", "My claws are clicking \"fuck you\" in morse code.", "Let's get kraken!"}
+    random_greeting_list = {
+        "Let's get into it, yeah?",
+        "You ready?",
+        "Check me out on Bandcamp!",
+        "Now with extra days!",
+        "*snip snap snip snap snip snap*",
+        "My claws are clicking \"I love you\" in morse code.",
+        "Let's get kraken!",
+        "I'm so excited yay",
+        "Yippee!",
+        "Now sugar free!",
+        "Now with extra sugar!",
+        "Now on the 3DS!",
+    }
     return random_greeting_list[math.random(#random_greeting_list)]
 end
 
@@ -339,12 +385,12 @@ function water_works.generate_queue()
         "taste_testing",
         "wrong_secret_agent"
     }
-    queue_list = shuffle(queue_list)
+    queue_list = water_works.shuffle(queue_list)
     return queue_list
 end
 
 -- taken from https://gist.github.com/Uradamus/10323382 shoutout
-function shuffle(tbl)
+function water_works.shuffle(tbl)
     for i = #tbl, 2, -1 do
         local j = math.random(i)
         tbl[i], tbl[j] = tbl[j], tbl[i]

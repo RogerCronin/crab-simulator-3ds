@@ -4,6 +4,7 @@ local choice = config.choice
 local run = config.run
 local pause = config.pause
 local sleep = config.sleep
+local clear = config.clear
 
 local days = {}
 
@@ -936,6 +937,8 @@ function days.old_man()
             config.personality = config.personality - 1
             config.experience = config.experience + 1
         end
+        table.insert(queue, "c_cringe_narrator")
+        queue = config.shuffle(queue)
         run(end_of_day)
     end)
 end
@@ -984,27 +987,434 @@ function days.panera_bread_giftcard()
 end
 
 function days.peer_pressure()
+    fprint("You're walking through downtown looking for a bite to eat when an adolecent crab runs up to you.\n", "dim", 1)
+    fprint("Hey man, you look pretty cool. Wanna try some Benzoylmethylecgonine?\n", "yellow")
+    fprint("Well, do you? All the cool crabs are doing it.\n", "green", 1)
+
+    choice({"Sure dude", "Nope"}, function ()
+        if answer == 1 then
+            fprint("Well, I aaamm pretty cooool...\n", "cyan")
+            fprint("Ayy, aight, well here you go.\n", "yellow", 1)
+            fprint("He hands you a brown paper bag that you assume has Benzamyt-", "dim", 1)
+            fprint("Benzomythe-", "dim", 1)
+            fprint("Bensa-", "dim", 1)
+            fprint("Whatever it was.\n", "dim", 1)
+
+            fprint("Aight gotta run.", "yellow")
+            fprint("He says as he runs off.\n", "dim", 1)
+
+            fprint("You stand there a bit perplexed.\n", "dim", 1)
+            fprint("Where's the ham fisted anti-drug message?\n", "cyan", 1)
+            fprint("Suddenly...\n", "dim")
+            fprint("HOW DARE YOU!", "rainbow")
+            fprint("Says God.\n", "dim", 1)
+            fprint("DRUGS? NOT COOL DUDE.\n", "rainbow", 1)
+            fprint("Turns out God's a fucking nerd, amirite?\n", "green", 1)
+
+            fprint("Coolness (in the eyes of God) - 100000000000", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.personality = config.personality - 1
+            config.experience = config.experience + 1
+        else
+            fprint("Nah dude, drugs AREN'T cool.\n", "cyan")
+            fprint("B-But I thought drugs were cool?\n", "yellow")
+            fprint("Nope!\n", "cyan", 1)
+            fprint("The adolecent crab throws his bag of Benzoylmethylecgonine on the ground and runs off in tears.\n", "dim", 1)
+            fprint("God you're an asshole.\n", "green", 1)
+            fprint("Uh, experience + 1 ig\n", "rainbow", 1)
+            config.experience = config.experience + 1
+            config.personality = config.personality + 1
+        end
+        run(end_of_day)
+    end)
 end
 
 function days.pirates()
+    fprint("You're chilling by the beachside when all of a sudden...\n", "dim")
+
+    fprint("AVAST, YE LADDIES! LAND HO!\n", "yellow")
+
+    fprint("Crab pirates? That's a new one.\n", "green")
+
+    fprint("The crabtain of the ship scuttles up to you.\n", "dim")
+    fprint("Ahoy! Would ye like te join me ship? (arrg)\n", "yellow")
+
+    choice({"Hell yeah", "Hell no"}, function ()
+        if answer == 1 then
+            fprint("Yeah sure dude.\n", "cyan")
+            fprint("What? T'was a joke, me laddie. Nobody wants ye crab headass on thar ship.\n", "yellow")
+            fprint("The pirate plunders your wallet and sails off.\n", "dim", 1)
+            fprint("Oof. That's gotta hurt.\n", "green")
+            table.insert(queue, "c_supermarket_pirate")
+        else
+            fprint("Nah, not today man.\n", "cyan")
+            fprint("B-but I thought you'd w-want to join?", "yellow")
+            fprint("The crab says, fighting back tears.\n", "dim", 1)
+            fprint("He hops back onto his galleon ship, crying all the way back. Prick.\n", "dim", 1)
+        end
+        fprint("Disdain for pirates + 3", "rainbow", 1)
+        fprint("Experience + 1\n", "rainbow", 2)
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
 end
 
 function days.prawn_shop()
+    fprint("Damn, I'm really craving Taco Bell but I don't have any money.\n", "cyan")
+    fprint("Well, what's a fast way to earn clean cash?\n", "green", 1)
+    fprint("Let's pawn some stuff off at a pawnshop!\n", "cyan", 2)
+    fprint("You approach the shop. The brick walls of the building look very old. A thick layer of dust coating the windows doesn't do much to help alleviate the sense of foreboding.\n", "dim", 1)
+    fprint("Hello? Anyone here?", "cyan", 0)
+    fprint("You call out while opening the door.\n", "dim", 1)
+    fprint("Some noises can be heard from behind the counter, and eventually out pops a small fish.\n", "dim", 1)
+    fprint("I'm Rick Herring, and this is my prawn shop. I work here with my old man and my son, Big Haddock. Everything in here has a story and a price. One thing I've learned after 21 years: you never know WHAT is gonna come through that door.\n", "yellow", 1.5)
+    fprint("Uh, right. I'm here to pawn off some stuff.\n", "cyan")
+    fprint("Well, what do you have?\n", "yellow")
+    choice({"My old laptop", "My Big Mouth Billy Bass", "My watch"}, function ()
+        if answer == 1 then
+            fprint("I got an old laptop here. How much would you take it for?\n", "cyan", 2)
+            fprint("Hmm...", "yellow", 1)
+            fprint("Best I can do is $15.\n", "yellow", 2)
+            fprint("With all that money, you decide to buy 15 Beefy Fritos Burritos.\n", "dim", 1)
+            fprint("Old laptop - 1", "rainbow", 1)
+            fprint("Beefy Fritos Burrito + 15", "rainbow", 1)
+        elseif answer == 2 then
+            fprint("I got a Big Mouth Billy Bass here. How much would you take it for?\n", "cyan", 1)
+            fprint("Dude, this is basically a racist caricature of me. What the fuck.\n", "yellow", 1)
+            fprint("Oh ok sorry.\n", "cyan", 1)
+            fprint("Taco Bell + 0", "rainbow", 1)
+        else
+            fprint("I got a watch here. How much would you take it for?\n", "cyan")
+            fprint("My oh my, that is a fantastic watch. Tell you what, I'll give you 400 even for it.\n", "yellow")
+            fprint("Oh dope.\n", "cyan", 2)
+            fprint("With all that money, you decide to buy 400 Beefy Fritos Burritos from Taco Bell.\n", "dim", 1)
+            fprint("Watch - 1", "rainbow", 1)
+            fprint("Beefy Fritos Burrito + 400", "rainbow", 1)
+        end
+        fprint("Experience + 1\n", "rainbow", 2)
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
 end
 
 function days.prisoners_dilemma()
+    fprint("Blinding lights. You're strapped to a metal chair.\n", "dim")
+    fprint("You've been imprisoned and have no memory of what you could've done.\n", "green")
+    fprint("Hello? HeeeEEeellooOOOOooOO?\n", "cyan")
+    fprint("Oh, hey, you're finally awake.", "yellow", 0)
+    fprint("Says a crab in a lab coat, passing by your cell door.\n", "dim")
+    fprint("Don't worry, you're not in any trouble, (yet), we just brought you in for some questioning.\n", "yellow")
+    fprint("That can't be legal.\n", "cyan")
+    fprint("Idk probably not but it'll be cool don't worry.\n", "yellow")
+    fprint("The crab fiddles around with a clipboard for a second, then resumes their spiel.\n", "dim", 1)
+    fprint("So basically we have enough evidence to convict you or another person of a crime. Before we sentence anyone, we'll give both of you the chance to testify against the other guy.\n", "yellow")
+    fprint("Okay, yeah, I do that.\n", "cyan")
+    fprint("Whoa, wait, hold your horses. If you both testify against each other, you'll both serve two years in prison. If the other guy testifies against you and you say nothing, you'll serve three years and they'll go free. Same thing the other way around.\n", "yellow")
+    fprint("And what happens if we both say nothing?\n", "cyan")
+    fprint("Then you each serve one year.\n", "yellow")
+    fprint("Ok, cool.\n", "cyan")
+    fprint("So, what are you gonna do?\n", "yellow")
+    fprint("This is quite the... dilemma.\n", "green")
+
+    choice({"Testify against", "Say nothing"}, function ()
+        local carlos = math.random(2)
+        if answer == 1 and carlos == 1 then -- two years
+            fprint("Ok, the other guy did it.\n", "cyan")
+            fprint("Whoa, cool, let me go see what the other guy's gonna say.\n", "yellow")
+            fprint("You wait a bit, tapping a sick 5:8 polyrhythm on the metal chair.\n", "dim")
+            fprint("Ok, I'm back, they say you did it too, have fun in jail.\n", "yellow")
+            fprint("Aw fuck, guess I made the right choice.\n", "cyan")
+            fprint("Here, wanna meet the other guy?\n", "yellow")
+            fprint("They leave for a bit and escorts in another crab.\n", "dim")
+            fprint("Holy shit, is that you Carlos?\n", "cyan")
+            fprint("Aww man, what's up dude?\n", "blue")
+            fprint("Wait, you know each other?\n", "yellow")
+            fprint("Aw hell yeah dude, Carlos is the homie.\n", "cyan")
+            fprint("Shit man, we both testified?\n", "blue")
+            fprint("Fuck yeaa\n", "cyan")
+            fprint("Ayyyyy\n", "blue")
+            fprint("God, please, just stop, alright? You're free, oh my god, just get out.\n","yellow")
+            fprint("Ayyyy\n", "cyan")
+            fprint("Ayyyy\n", "blue", 1)
+            fprint("Whew, you got pretty lucky there.\n", "green", 1)
+            config.personality = config.personality - 1
+        elseif answer == 1 and carlos == 2 then -- free
+            fprint("Ok, the other guy did it.\n", "cyan")
+            fprint("Damn, let me see what they're gonna say.\n", "yellow")
+            fprint("While they're gone for a bit you hum a few lines from a Frank Ocean song.\n", "dim")
+            fprint("Alright, seems like the other guy doesn't want to talk. You're free, you can leave.\n", "yellow")
+            fprint("Really? That's great!\n", "cyan")
+            fprint("Yeah, yeah. Looks like you've put away a...\n", "yellow", 0)
+            fprint("Wait hang on, don't tell me, I don't want my conscience weighing down on me.\n", "cyan")
+            fprint("... Right. Anyway, yeah, go home.\n", "yellow", 1)
+            config.personality = config.personality - 1
+        elseif answer == 2 and carlos == 1 then
+            fprint("You just kind of sit there, silently.\n", "dim", 1)
+            fprint("...\n", "yellow", 1)
+            fprint("...\n", "cyan", 1)
+            fprint("Ohhh, you're staying silent.\n", "yellow")
+            fprint("(yeah)\n", "cyan")
+            fprint("Cool cool. Let me see what the other guy said.\n", "yellow")
+            fprint("While they're gone you blink 7 times.\n", "dim", 1)
+            fprint("Ok, do you want the good news or the bad news?\n", "yellow")
+            choice({"Good news", "Bad news"})
+            fprint("Jk it's just bad news, the other guy testified, see you in prison.\n", "yellow", 1)
+            fprint("Ah fuck.\n", "cyan", 2)
+            config.state = "You don't aaaactually die, but go to jail for so many years it doesn't make a difference. Rip.13"
+            run(end_of_day)
+            return
+        else
+            fprint("You just kind of sit there, silently.\n", "dim", 1)
+            fprint("...\n", "yellow", 1)
+            fprint("...\n", "cyan", 1)
+            fprint("Ohhh, you're staying silent.\n", "yellow")
+            fprint("(yeah)\n", "cyan")
+            fprint("Ok nice, let me see what the other guy said.\n", "yellow")
+            fprint("While they're gone you do nothing.\n", "dim")
+            fprint("Huh, cool, that's never happened before.", "yellow", 0)
+            fprint("He says to himself.\n", "dim")
+            fprint("What?\n", "cyan")
+            fprint("Other guy also said nothing, that's pretty cool.\n", "yellow")
+            fprint("Aww, that still means prison for a year right?\n", "cyan")
+            fprint("No, no, you're too moral. You're the best out of all of us. Better than me. Go on, live your life, you rapscallion, you...\n", "yellow")
+            config.personality = config.personality + 1
+        end
+        fprint("Game theory + 2", "rainbow", 1)
+        fprint("Experience + 1\n", "rainbow", 2)
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
 end
 
-function days.purchase_some_goods()
-end
+-- no purchase_some_goods
 
 function days.random_hot_crab()
+    fprint("Sigh, just another lonely walk down the street.", "cyan", 0)
+    fprint("You think, gloomily scuttling along.\n", "dim")
+    fprint("You look around.\n", "dim")
+    fprint("A crab sweeping the sidewalk here, some kids running around there, a... crab in a trenchcoat close behind them, and...", "cyan")
+    fprint("Someone waving to me?\n", "cyan")
+    fprint("Damn, she's kinda hot tho.\n", "green")
+    fprint("Ikr?\n", "cyan")
+    fprint("Wave back?\n", "green")
+    choice({"Yeah", "Nah"}, function ()
+        if answer == 1 then
+            fprint("Ok, I'm gonna do it.\n", "cyan")
+            fprint("You slow down and quickly wave.\n", "dim")
+            fprint("Oh shit she's walking over.\n", "green")
+            fprint("You dust off your shell and get ready to talk to her.\n", "dim")
+            fprint("Hey, what's up?\n", "cyan")
+            fprint("What?\n", "yellow")
+            fprint("She seems confused. Quickly, you look behind yourself.\n","dim")
+            fprint("Oh god, it's her friend. She was definitely waving to her.\n", "green")
+            fprint("Oh, your friend...\n", "cyan", 0.7)
+            fprint("Uhh, yeah, cya.\n", "yellow", 2)
+            fprint("She and her friend walk off, laughing.\n", "dim")
+            fprint("Huh.\n", "cyan", 1)
+            fprint("Huh.\n", "green", 1)
+            fprint("Experience + 1", "rainbow", 1)
+            fprint("Huh.\n", "rainbow", 2)
+        else
+            fprint("No, nevermind, I can't do it.\n", "cyan")
+            fprint("Ok, whatever.\n", "green")
+            fprint("The girl walks across the street towards you anyway.\n", "dim")
+            fprint("Wait, what? What. What.\n", "cyan")
+            fprint("Bro just chill, calm down.\n", "green")
+            fprint("Ok, ok.\n", "cyan")
+            fprint("She walks directly past you to her friend, who was standing behind you.\n", "dim")
+            fprint("Holy shit that was close.\n", "green", 1)
+            fprint("Relief + 3", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+        end
+        table.insert(queue, "c_hot_crab_second_meeting")
+        queue = config.shuffle(queue)
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
 end
 
 function days.taste_testing()
+    fprint("Oh boy, I sure am hungry! I wonder what I have in the kitchen.\n", "cyan")
+    fprint("Wait hang on, I saw this in a Vsauce video. I put three cans of soup in the cupboard. Two of them are normal, but one was made with crab stock. Pick one, if you dare!!!\n", "green")
+    fprint("You doubt the narrator's legitimacy, but should probably choose carefully anyway.\n", "dim")
+    local crab_stock = math.random(3)
+    cans = {"Blue can", "Red can", "Green can"}
+    choice(cans, function ()
+        local reveal_can = math.random(3)
+        local switch_answer = 0
+        while reveal_can ~= answer and reveal_can ~= crab_stock do
+            reveal_can = math.random(3)
+        end
+        if answer == 1 and reveal_can == 2 then switch_answer = 3
+        elseif answer == 2 and reveal_can == 3 then switch_answer = 1
+        elseif answer == 1 and reveal_can == 3 then switch_answer = 2
+        end
+
+        fprint("I choose-\n", "cyan", 0)
+        fprint("BUT WAIT! The " .. cans[reveal_can]:lower() .. "DOESN'T contain any crab stock. Do you want to switch your selected can?\n", "green")
+        local first_answer = answer
+        choice({"Keep it on the " .. cans[answer]:lower(), "Switch it to the " .. cans[switch_answer]:lower()}, function ()
+            if answer == 2 then
+                answer = switch_answer
+                fprint("Heh. Switching increases your chance of getting the crab stock to 2/3. Let's see which one it REALLY is...\n", "green")
+            else
+                fprint("Smart move. Switching increases your chance of getting the crab stock to 2/3. Let's see which one it REALLY is...\n", "green")
+            end
+            fprint("You hear a muffled drumroll from inside the cupboard.\n", "dim", 1)
+            if answer == crab_stock then
+                fprint("You chose the " .. cans[answer]:lower() .. ", which is ALSO the crab stock! You imbecile!\n", "green", 1.5)
+                fprint("Your heart races as you open the cupboard door. There lies the " .. cans[answer]:lower() .. ", mocking you. Calling to you as if to say \"please, please eat me\". You shudder, knowing what must be done.\n", "dim", 1)
+                fprint("The microwave beeps deafeningly loud. A piping hot bowl of soup is inside. What have you become? Eating one of your own? Don't think that this isn't your fault. YOU chose the can. You deserve this.\n", "dim", 1)
+                fprint("Your spoon extends into the soup's surface, dredging some broth, perhaps a few bits of meat. You bring it closer and closer to your mouth.", "dim", 1)
+                fprint("With a single gulp, you've committed a cardinal sin.\n", "dim", 1)
+                fprint("It's fine. Crabs eat each other all the time in nature btw.\n", "cyan", 1)
+                fprint("Cannibalistic tendencies + 9", "rainbow", 1)
+            else
+                fprint("You chose the " .. cans[answer]:lower() .. ", but the crab stock was the " .. cans[crab_stock]:lower() .. ". You get off THIS time...\n", "green")
+                fprint("You heat your soup in the microwave and enjoy a nice dinner while watching the news.\n", "dim", 1)
+            end
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+            run(end_of_day)
+        end)
+    end)
 end
 
 function days.wrong_secret_agent()
+    fprint("You're chilling at your house watching Cray's Anatomy when your phone rings.\n", "dim", 1)
+    fprint("RIIIIING. RIIIIIIIng. riiNIIINGGGN.\n", "red", 1)
+    fprint("You pick up the phone.", "dim")
+    fprint("Hey man, what's u-\n", "cyan", 0)
+    fprint("Your position has been compromised. We've sent plane tickets to your dead drop. Leave as soon as possible without raising suspicion.\n", "yellow", 1)
+    fprint("...", "cyan", 1)
+    fprint("Who are you?\n", "cyan")
+    fprint("Oh, haha, wrong number lol.\n", "yellow", 1)
+    fprint("Wack.\n", "green", 1)
+
+    fprint("Stealth - 4", "rainbow", 1)
+    fprint("Experience + 1\n", "rainbow", 2)
+    config.experience = config.experience + 1
+    run(end_of_day)
+end
+
+function days.slide_whistle()
+    fprint("You hear a slide whistle start descending in pitch.\n", "dim", 1)
+    choice({"Step left", "Step right"}, function ()
+        fprint("You step to your " .. (answer == 1 and "left" or "right") .. " and look up.", "dim", 1)
+        if math.random(2) == 1 and config.message ~= "slide_whistle_die" then
+            fprint("\nCool looking piano.\n", "cyan", 2)
+            config.message = "slide_whistle_die"
+            config.state = "Hah. Idiot. Crushed by a falling piano. Classic.12"
+            run(end_of_day)
+            return
+        end
+        fprint("Beside you, a large grand piano obliterates the sidewalk.\n", "dim", 1)
+        fprint("Neat.\n", "cyan", 1)
+        fprint("Experience + 1\n", "rainbow", 2)
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
+end
+
+function days.ant_simulator()
+    fprint("Damn, all these leaves in the gutter, gotta clean it out.", "cyan")
+    fprint("..Oh? What's this?\n", "cyan")
+    fprint("In the midst of the leaves, you find a retro Game Koi cartridge.\n", "dim")
+    fprint("Ant Simulator?? I've never heard of that.\n", "cyan")
+    fprint("Quickly, you find your old Game Koi Color and plug it in.\n", "dim", 1)
+
+    pause()
+    clear()
+    sleep(1)
+
+    ant_sim_color_palette = true
+
+    fprint("WELCOME TO ANT SIMULATOR (2020)", colors.bright_red, 3)
+    fprint("Welcome!", colors.bright_green)
+    fprint("You've died tragically " .. config.random_death(), colors.bright_red)
+    fprint("Luckily...", colors.bright_red)
+    fprint("You've been reincarnated as an ant!", colors.bright_red)
+    fprint("So, strap in and enjoy the ride.", "white")
+    fprint("There's a lot to do as an ant these days!", "white", 3)
+
+    clear()
+    sleep(1)
+
+    fprint("DAY 1\n", "white", 1)
+    fprint("Two younger male ants corner you on your way out of the hill", colors.bright_dim)
+    fprint("(The ant hill, that is)\n", colors.bright_dim)
+
+    fprint("Hey, look what we have here...\n", colors.bright_yellow)
+    fprint("Says one of the ants\n", colors.bright_dim)
+    fprint("Fresh meat, heheh\n", colors.bright_yellow)
+    choice({"Hey, step off", "Ants are meat?"}, function ()
+        if answer == 1 then
+            fprint("Hey, step off.\n", colors.bright_cyan, 1)
+            fprint("Ok buddy.\n", colors.bright_yellow, 1)
+            fprint("Whoa, confidence. That's pretty hot dude.\n", colors.bright_green, 1)
+            fprint("Hotness + 10347", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 3)
+            ant_sim_color_palette = false
+        else
+            fprint("Are ants even meat though? I guess we're animals but no one would call us meaty, right?", colors.bright_cyan, 1)
+            fprint("Shut up nerd.\n", colors.bright_yellow, 1)
+            fprint("They proceed to beat the shit out of you, real \"oof ouch owie\" stuff.\n", colors.bright_dim, 2)
+            config.state = "You die in the game, you die in real life. Yooooooooo.14"
+            ant_sim_color_palette = false
+            return
+        end
+        clear()
+        sleep(1)
+        fprint("Alright, enough of that, I gotta get back to cleaning.\n", "cyan", 1)
+        fprint("Enjoyment in an otherwise cynical world + 2", "rainbow", 1)
+        fprint("Experience + 1\n", "rainbow", 2)
+        run(end_of_day)
+    end)
+end
+
+function days.online_salt()
+    fprint("After pressure from your friends, you finally get around to playing Valoratlantic. You queue into an unrated match and greet your teammates.\n", "dim")
+    fprint("Hi guys! Ready to have an awesome g-\n", "cyan", 0)
+    fprint("Shut up\n", "yellow", 0)
+    fprint("Stop talking\n", "blue", 0)
+    fprint("Kill yourself\n", "purple", 2)
+    fprint("yeesh\n", "green", 1)
+
+    choice({"Rush B through window", "Slow walk B through long", "Rush A through showers"}, function ()
+        if answer == 1 or answer == 2 then
+            fprint("You and your team full send B, getting an entry kill and trading another three to clear site and plant.\n", "dim", 1)
+            fprint("Footsteps backsite", "blue")
+            fprint("One of your chud teammates calls out.\n", 1)
+            fprint("ftonk ftonk ftonk (sound a pistol makes)\n", "red", 3, 0)
+            fprint("Your last teammate got got, making it a 1v1.\n", "dim", 1)
+            fprint("Last guy is def long trust", "yellow", 0)
+        else
+            fprint("You and your team full send A, getting an entry kill and trading another three to clear site and plant.\n", "dim", 1)
+            fprint("Footsteps heaven", "blue")
+            fprint("One of your chud teammates calls out.\n", "dim", 1)
+            fprint("ftonk ftonk ftonk (sound a pistol makes)\n", "red", 3, 0)
+            fprint("Your last teammate got got, making it a 1v1.\n", "dim", 1)
+            fprint("Last guy is def cubby trust", "yellow", 0)
+        end
+
+        fprint("Calls out another helpful chud.\n", "dim")
+        fprint("You one-tap the remaining enemy, closing out the round.\n", "dim", 1)
+        fprint("Haha, get fucked.\n", "cyan")
+        choice({"Trash talk", "Play nice"}, function ()
+            if answer == 1 then
+                fprint("CrabbyMan: L mickey mouse deagle", "white", 3, 0)
+                fprint("CrustaceanStation: 3319 Pulaski Hwy\f Baltimore\f MD 21224 181\a91\a242\a118\n", "white", 3, 0)
+                fprint("You turn off your computer and sit for a while.\n", "dim", 1)
+                config.personality = config.personality - 1
+            else
+                fprint("You decide to be a huge fucking BABY and not trash talk like a real gamer. You end up losing 6-13 from insufficient GAMER rage.\n", "dim")
+                fprint("Last time I ever play with you smh\n", "green", 1)
+                config.personality = config.personality + 1
+            end
+            fprint("Experience + 1\n", "rainbow", 2)
+            run(end_of_day)
+        end)
+    end)
 end
 
 function days.c_broom_hospital()
@@ -1052,9 +1462,65 @@ function days.c_crab_exam_death()
 end
 
 function days.c_cringe_narrator()
+    fprint("Hey man. I know it's only been " .. config.days .. " " .. config.day_plural() .. ", but I feel like we've gotten pretty close, you know?\n", "green")
+    choice({"What?", "I thought I was the only one..."}, function ()
+        if answer == 1 then
+            fprint("Um. What do you mean by that?\n", "cyan")
+            fprint("Oh lmao wrong number this was someone else so sorry.\n", "green")
+            fprint("Mm, ok.\n", "cyan")
+            fprint("no really my friend took my phone it was just a joke.\n", "green")
+            fprint("Oh, alright.\n", "cyan")
+            fprint("I narrate a lot of different people btw.\n", "green")
+            fprint("Cool.\n", "cyan")
+            config.state = "God, that was awkward. You died so hard on the inside that your body followed your mind.04"
+        else
+            fprint("Oh shit bro, totally, fuck I thought I was the only one.\n", "cyan")
+            fprint("Wait really? No cap?\n", "green")
+            fprint("Yeah bro we got a connection.\n", "cyan")
+            fprint("Oh dip that's pretty epic.\n", "green")
+            fprint("And then you woke up.\n", "dim", 1)
+
+            fprint("Predictability + 5", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.experience = config.experience + 1
+        end
+        run(end_of_day)
+    end)
 end
 
 function days.c_hot_crab_second_meeting()
+    fprint("After a long day at the offish, you decide to let off some steam at the local pub.\n", "green")
+    fprint("One fish-key neat, thanks.\n", "cyan")
+    fprint("Coming right up. Hey, you look a little down, you good?\n", "yellow")
+    fprint("Yeah, I'm fine, just a little lonely lately.\n", "cyan")
+    fprint("Hey, I get it. Why don't you talk to her?\n", "yellow")
+    fprint("He points to a crab across the bar, her face concealed by a tall seaquila sunrise.\n", "dim")
+
+    fprint("Sure, what do I have to lose?\n", "cyan")
+    fprint("The bartender goes over and gestures to you.", "dim")
+    fprint("You can't tell what they're saying from a distance, but you can tell the crab is the most beautiful you've ever seen.\n", "dim")
+    fprint("The bartender walks over.\n", "dim", 0.1)
+    fprint("Hey, she's gonna come over. Get ready!\n", "green")
+    fprint("Oh god, okay.\n", "cyan")
+    fprint("She walks over.\n", "dim")
+    fprint("Uhh, hey.\n", "cyan")
+    fprint("She looks at you, surprised.\n", "dim")
+    fprint("Oh, hi? Excuse me.\n", "blue")
+    fprint("She walks past you to a younger, much more attractive crab behind you.\n", "dim")
+    fprint("What?\n", "cyan")
+    fprint("Oh, you thought I was talking to you?\n", "yellow")
+    fprint("Yeah, kind of??\n", "cyan")
+    fprint("Nahhh.\n", "yellow", 1)
+    fprint("... Didn't this story beat already happen?\n", "cyan")
+    fprint("I think we need better writers.\n", "yellow")
+    fprint("Agreed.\n", "cyan")
+    fprint("Agreed.\n", "green")
+    fprint("Well I think it's kind of charming.\n", "rainbow")
+    fprint("FUCK you, go back to doing stats, Stat Boy.\n", "green")
+    fprint("*sniff* fine, experience + 1\n", "rainbow", 2)
+
+    config.experience = config.experience + 1
+    run(end_of_day)
 end
 
 function days.c_president_resign()
@@ -1074,6 +1540,36 @@ function days.c_president_stay()
 end
 
 function days.c_supermarket_pirate()
+    fprint("You're in the checkout line at Walmart when you encounter a ... familiar looking crab.\n", "green")
+    fprint("ARRR, WHAT DO YE MEAN ME COUPON'S EXPIRED!?!?\n", "yellow")
+    fprint("I'm sorry sir, but this coupon is-\n", "blue", 0)
+    fprint("WALK THE PLANK, LANDLUBBER, I NEED ME VITAMIN-SEA SUPPLEY-MENTS! (ARRG)\n", "yellow")
+    fprint("Whoa, looks like that pirate's gonna get scurvy if you don't do anything. What do you do?\n", "green")
+
+    choice({"Stand up for the pirate", "Let him get what he deserves"}, function ()
+        if answer == 1 then
+            fprint("You've decided to yell at the poor service worker who probably gets paid minimum wage.\n", "dim")
+            fprint("Hey man, this pirate's trying to stay healthy. Just let him use the coupon.\n", "cyan")
+            fprint("ARrgh?\n", "yellow")
+            fprint("The pirate has never encountered compassion before today.\n", "dim")
+            fprint("You know what, fine, I don't care.", "blue")
+            fprint("Says the cashier.\n", "dim", 1)
+            fprint("SINK ME, MATEY, YE DID IT!", "yellow")
+            fprint("Forget what I said yesterday. A crab like ye would be a fine addition te any respectable pirate crew.\n", "yellow")
+            fprint("Disdain for pirates - 10", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.personality = config.personality + 1
+        else
+            fprint("Sir, this coupon is for Target. We can't accept this.", "blue")
+            fprint("The cashier says.\n", "dim", 1)
+            fprint("The pirate lets out a small arghhh before evaporating into a puff of citrus-scented smoke.\n", "dim", 1)
+            fprint("Emotional scarring associated with Walmart + 4", "rainbow", 1)
+            fprint("Experience + 1\n", "rainbow", 2)
+            config.personality = config.personality -1
+        end
+        config.experience = config.experience + 1
+        run(end_of_day)
+    end)
 end
 
 return days
