@@ -779,7 +779,7 @@ function days.fisherman()
     run(function ()
         if answer == 1 then
             fprint("You try climbing up the sides of the bucket to no avail; the other crabs pull you back down.\n", "dim", 1)
-            fprint("You idiots, how are we gonna escape if you keep doing that\n", "cyan")
+            fprint("You idiots, how are we gonna escape if you keep doing that?\n", "cyan")
             fprint("Fuck that, I'm escaping for myself.\n", "yellow")
             fprint("The crab tries to escape, but you pull them down.\n", "dim")
             fprint("Hey fuck you buddy.\n", "yellow", 1)
@@ -938,6 +938,7 @@ function days.old_man()
             config.experience = config.experience + 1
         end
         table.insert(queue, 1, "c_cringe_narrator")
+        table.insert(queue, 1, "c_secret_meeting")
         queue = config.shuffle(queue)
         run(end_of_day)
     end)
@@ -1385,7 +1386,7 @@ function days.online_salt()
         if answer == 1 or answer == 2 then
             fprint("You and your team full send B, getting an entry kill and trading another three to clear site and plant.\n", "dim", 1)
             fprint("Footsteps backsite", "blue")
-            fprint("One of your chud teammates calls out.\n", 1)
+            fprint("One of your chud teammates calls out.\n", "dim", 1)
             fprint("ftonk ftonk ftonk (sound a pistol makes)\n", "red", 3, 0)
             fprint("Your last teammate got got, making it a 1v1.\n", "dim", 1)
             fprint("Last guy is def long trust", "yellow", 0)
@@ -1566,10 +1567,56 @@ function days.c_supermarket_pirate()
             fprint("The pirate lets out a small arghhh before evaporating into a puff of citrus-scented smoke.\n", "dim", 1)
             fprint("Emotional scarring associated with Walmart + 4", "rainbow", 1)
             fprint("Experience + 1\n", "rainbow", 2)
-            config.personality = config.personality -1
+            config.personality = config.personality - 1
         end
         config.experience = config.experience + 1
         run(end_of_day)
+    end)
+end
+
+function days.c_secret_meeting()
+    fprint("You receive an anonymous invitation to a secret meeting later tonight.\n", "dim", 1)
+    fprint("Weird. Should I even go to this?\n", "cyan")
+    choice({"Yes", "No"}, function ()
+        if answer == 1 then
+            fprint("Later that night you go to the unsuspecting place at the unsuspecting time.\n", "dim", 1)
+            fprint("Surrounding a small fire are 10 hooded crabs.", "dim")
+            fprint("You hold up your invitation.\n", "dim")
+            fprint("I was told there would be a secret meeting here?\n", "cyan")
+            fprint("What does it look like dumbass.\n", "yellow")
+            fprint("Right, right. So what's this for?\n", "cyan")
+            fprint("We have reason to believe that you, like us, had a past, non-crab life.\n", "yellow")
+            choice({"Oh yeah that's me", "I have no idea what you're talking about"}, function ()
+                if answer == 1 then
+                    fprint("Holy shit, yes, that's me, you guys were reincarnated too??\n", "cyan")
+                    fprint("It's as we feared. I'm sorry for what we must do.\n", "yellow")
+                    fprint("What? What do you mean?\n", "cyan")
+                    fprint("Crab-induced psychosis. They can't cope with the crab lifestyle and conjure up memories of a fake past life. Truly, it's better this way.\n", "yellow", 2)
+                    config.state = "While you were contemplating your reality, one of the hooded crabs pushed you into the fire. Yeowch!16"
+                    run(end_of_day)
+                else
+                    fprint("What? I don't know what you're talking about.\n", "cyan")
+                    fprint("Oh, that's a relief. Uhh, make sure you don't tell anyone about this, then.\n", "yellow")
+                    fprint("Yea dw.\n", "cyan")
+                    fprint("You take the bus back and have pasta for dinner.\n", "dim", 1)
+                    fprint("Experience + 1\n", "rainbow", 2)
+                    config.experience = config.experience + 1
+                    run(end_of_day)
+                end
+            end)
+        else
+            fprint("ok not to railroad you, but I worked really hard on the other option\n", "green", 1)
+            fprint("shoot I'm sorry man, I'll go back and pick yes instead\n", "cyan")
+            fprint("no but like now it's weird...\n", "green", 1)
+            fprint("no no it's cool, I'll go to the secret meeting\n", "cyan")
+            fprint("nah seriously drop it, it's fine", "green", 2)
+            fprint("but like you can always respawn, so why not pick the interesting option?\n", "green")
+            fprint("Dude you say it's \"fine\" but it's clearly not. What do you actually want me to do?\n", "cyan")
+            fprint("no I'm serious just stop talking about it\n", "green", 1)
+            fprint("Whatever man\n", "cyan", 2)
+            config.state = "The narrator left the groupchat and like we could totally add them back but it'd be weird so like idk what to do.15"
+            run(end_of_day)
+        end
     end)
 end
 

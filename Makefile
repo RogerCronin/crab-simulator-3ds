@@ -38,4 +38,7 @@ build: FORCE
 	cd build && zip -r "Crab Simulator (2020).zip" ./
 	mv "build/Crab Simulator (2020).zip" "Crab Simulator (2020).zip"
 
+clean: FORCE
+	rm -rf "Crab Simulator (2020).zip" ./build ./games/assets
+
 FORCE: ;

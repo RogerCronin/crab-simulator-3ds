@@ -1,4 +1,4 @@
-nest = require("nest").init({ console = "3ds", emulateJoystick = true })
+nest = require("nest").init({ console = "3ds" })
 local font_file_name = "assets/jb_extra_bold"
 
 local config = require("water_works")
@@ -14,22 +14,26 @@ if nest then -- on PC
     font_size = 14
     font_line_height = 14
 else -- on 3DS
-    font_file_name = "assets/jb_extra_bold"
-    font_size = 18
-    font_line_height = font_size - 4
+    font_file_name = "assets/jb_semi_bold"
+    font_size = 20
+    font_line_height = font_size - 6
 end
 touches = {}
 ant_sim_color_palette = false
 day_string = nil
 
+local quit_timer = 0
+local is_quitting = false
+
 colors = {
     dim = {0.41, 0.41, 0.41, 1},
     red = {1, 0, 0, 1},
     yellow = {1, 0.84, 0, 1},
-    green = {0, 0.5, 0, 1},
+    green = {0, 0.7, 0, 1},
+    old_green = {0, 0.5, 0, 1},
     blue = {0.12, 0.56, 1, 1},
     purple = {0.73, 0.33, 0.83, 1},
-    cyan = {0, 0.55, 0.55, 1},
+    cyan = {0, 0.69, 0.69, 1},
     orange = {1, 0.27, 0, 1},
     light_yellow = {1, 0.91, 0.5, 1},
     pink = {1, 0.54, 1, 1},
@@ -43,8 +47,7 @@ colors = {
     bright_dim = {137 / 255, 142 / 255, 151 / 255, 1}
 }
 
-queue = config.generate_queue()
---queue = {"ant_simulator"}
+queue = {"c_secret_meeting"}
 event_queue = {}
 print_buffer = {}
 active_choice = {}
@@ -60,12 +63,7 @@ function intro()
     config.clear()
     config.fprintf("Welcome!\n", colors.green, 1)
     config.fprintf("You've died tragically " .. config.random_death() .. ".\n", colors.red, 1.5)
-    if math.random(1, 4) == 4 then
-        config.fprintf("LucKRILLy...", colors.green, 1)
-        config.fprintf("haha do you get it", colors.dim, 0, 0.02)
-    else
-        config.fprintf("Luckily...", colors.green, 1)
-    end
+    config.fprintf("Luckily...", colors.green, 1)
     config.fprintf("You've been reincarnated as a crab!", colors.green, 1)
     config.fprintf("There's a lot to do as a crab these days, so strap in and enjoy the ride!\n", colors.green, 2)
 
@@ -202,14 +200,7 @@ function game()
                                 config.fprintf("Those weren't some pretty nice choices back there. Not cool, dude.\n", "rainbow", 3)
                             end
 
-                            -- TODO remove save file here
-                            config.fprintf("Hope you liked our game. Gotta run now, bye.\n", colors.yellow, 10)
-                            config.fprint("You can quit btw. There isn't anything after this.\n", "green", 30)
-                            config.fprint("No, I'm serious. There's not.\n", "green", 30)
-                            config.fprint("Truly, this is the last funny little message that appears.\n", "green", 30)
-                            config.fprint("Ok I lied, this is. But actually nothing after this.\n", "green", 120)
-                            config.fprint("You're taking too long, lemme just do it for you.\n", "green", 1)
-
+                            config.fprintf("Hope you liked our game. Gotta run now, bye.\n", colors.yellow, 5)
                             title_screen()
                         end
                     )
@@ -237,16 +228,17 @@ function game()
                 end
 
                 if answer == 1 then
+                    config.fprintf("Yaaayyy\n", "green", 1)
                     table.insert(queue, 1, day_string)
                     game()
                 else
-                    config.fprint("Wait hang on, this game doesn't save. You sure you wanna quit?\n", "green")
+                    config.fprintf("Wait hang on, this game doesn't save. You sure you wanna quit?\n", "green")
                     config.choice({"Yea quit on it", "No wait I wanna restart"}, function ()
                         if answer == 1 then
-                            config.fprint("Okay, your loss...\n", "green")
+                            config.fprintf("Okay, your loss...\n", "green")
                             title_screen()
                         else
-                            config.fprint("I knew you had it in ya\n", "green", 1)
+                            config.fprintf("I knew you had it in ya\n", "green", 1)
                             table.insert(queue, 1, day_string)
                             game()
                         end
@@ -269,7 +261,7 @@ end
 
 function love.load()
     math.randomseed(os.time())
-    love.graphics.set3D(false)
+    love.graphics.set3D(true)
     font = love.graphics.newFont(config.get_file(font_file_name, "ttf"), font_size)
     love.graphics.setFont(font)
     if not config.debug then title_screen() else game() end
@@ -287,14 +279,22 @@ function love.touchmoved(id, x, y, dx, dy, pressure)
     touches[id] = { x = x, y = y }
 end
 
+local function hovered_answer_up()
+    hovered_answer = math.max(hovered_answer - 1, 1)
+end
+
+local function hovered_answer_down()
+    hovered_answer = math.min(hovered_answer + 1, #active_choice)
+end
+
 function love.gamepadpressed(joystick, button)
     if button == "rightshoulder" then speed_up = true end
 
     if #active_choice ~= 0 then
         if button == "dpup" then
-            hovered_answer = math.max(hovered_answer - 1, 1)
+            hovered_answer_up()
         elseif button == "dpdown" then
-            hovered_answer = math.min(hovered_answer + 1, #active_choice)
+            hovered_answer_down()
         elseif button == "a" then
             answer = hovered_answer
         end
@@ -306,30 +306,46 @@ function love.gamepadpressed(joystick, button)
         end
     end
 
-    --[[
-    if button == "start" then
-        love.event.quit()
-    end
-    ]]
+    if button == "start" then is_quitting = true end
 end
 
 function love.gamepadreleased(joystick, button)
     if button == "rightshoulder" then speed_up = false end
+    if button == "start" then
+        is_quitting = false
+        quit_timer = 0
+    end
 end
 
+local axis_timeout = false
 function love.gamepadaxis(joystick, axis, amount)
-    -- TODO implement gamepad
+    if not nest and #active_choice ~= 0 and axis == "lefty" then
+        if amount < -0.9 and not axis_timeout then
+            hovered_answer_down()
+            axis_timeout = true
+        elseif amount > 0.9 and not axis_timeout then
+            hovered_answer_up()
+            axis_timeout = true
+        elseif math.abs(amount) < 0.1 and axis_timeout then
+            axis_timeout = false
+        end
+    end
 end
 
 function love.draw(screen)
     love.graphics.setFont(font)
     
     if screen ~= "bottom" then
+        local depth = -love.graphics.getDepth()
+        if screen == "right" then
+            depth = -depth
+        end
+
         -- scroll camera if the print_buffer would be offscreen
         love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_line_height))
         local line = 8
         for _, text in pairs(print_buffer) do
-            love.graphics.printf(text, 8, line, 400 - 16, "center")
+            love.graphics.printf(text, 8 - depth * 6, line, 400 - 16, "center")
             line = line + font_line_height
         end
     else
@@ -353,6 +369,14 @@ function love.draw(screen)
 
                 local choice = wrapped_lines[i]
                 love.graphics.print({color, "[" .. i .. "] " .. choice[1]}, 8 * 4 + choice_horizontal_offset, line)
+
+                for _, touch in pairs(touches) do
+                    if touch.y >= line and touch.y <= line + font_line_height * (#choice + 1) then
+                        hovered_answer = i
+                        answer = i
+                    end
+                end
+
                 line = line + font_line_height
                 for j = 2, #choice do
                     love.graphics.print({color, choice[j]}, 8 * 4 + choice_horizontal_offset, line)
@@ -365,4 +389,13 @@ end
 
 function love.update(dt)
     config.update_event_queue(dt)
+    if is_quitting then quit_timer = quit_timer + dt end
+    if quit_timer > 0.25 then love.event.quit() end
+
+    if waiting_for_input then
+        for _ in pairs(touches) do
+            answer = 1
+            break
+        end
+    end
 end

@@ -18,6 +18,8 @@ LIST OF DEATHS
 12 - crushed by a piano L
 13 - prisonersDilemma.py Prison time
 14 - sword art online (holy)
+15 - annoyed
+16 - secret meeting
 ]]
 
 water_works.debug = false -- skips menus
@@ -88,6 +90,17 @@ function water_works.update_event_queue(dt)
                     print_buffer[#print_buffer + 1] = {color, strings[i]}
                 end
             elseif answer ~= 0 then -- we've selected an answer
+                for i = 0, event[4] - 1 do
+                    table.remove(print_buffer, #print_buffer)
+                end
+                local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
+                local _, strings = font:getWrap(answer_text, 384)
+                if not nest then strings[#strings + 1] = "" end -- 3ds wrapping fix
+                event[4] = #strings
+                for i = 1, #strings do
+                    print_buffer[#print_buffer + 1] = {color, strings[i]}
+                end
+
                 active_choice = {}
                 if event[3] then event[3]() end
                 table.remove(event_queue, 1)
@@ -188,7 +201,7 @@ function water_works.fprintf(text, color, wait, text_speed)
     text_speed = text_speed or 0.04
 
     local _, wrapped_text = font:getWrap(text, 384) -- 400 px - (8 px on each side)
-    if not nest and text:sub(-1) == "\n" then wrapped_text[#wrapped_text + 1] = "" end -- on 3ds, getWrap with trailing \n doesn't make a new line
+    if not nest and string.sub(text, -1) == "\n" then wrapped_text[#wrapped_text + 1] = "" end -- on 3ds, getWrap with trailing \n doesn't make a new line
 
     if color == "rainbow" then
         rainbow_print(wrapped_text, text_speed)
@@ -328,7 +341,7 @@ function water_works.random_greeting()
         "Check me out on Bandcamp!",
         "Now with extra days!",
         "*snip snap snip snap snip snap*",
-        "My claws are clicking \"I love you\" in morse code.",
+        "My claws are clicking \"I love you\" in Morse code.",
         "Let's get kraken!",
         "I'm so excited yay",
         "Yippee!",
