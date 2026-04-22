@@ -8,7 +8,7 @@ download_nest: FORCE
 	rm nest-master.zip
 	rm -rf ./tmp
 
-copy_nest_assets: assets/assets_nest
+copy_nest_assets: FORCE
 	rm -rf game/assets
 	mkdir game/assets
 	cp -r assets/assets_nest/. game/assets/
@@ -16,8 +16,8 @@ copy_nest_assets: assets/assets_nest
 run: FORCE copy_nest_assets
 	love game
 
-build: FORCE
-	rm "Crab Simulator (2020).zip"
+build: copy_nest_assets
+	rm -f "Crab Simulator (2020).zip"
 	rm -rf build
 	mkdir build
 
@@ -39,6 +39,6 @@ build: FORCE
 	mv "build/Crab Simulator (2020).zip" "Crab Simulator (2020).zip"
 
 clean: FORCE
-	rm -rf "Crab Simulator (2020).zip" ./build ./games/assets
+	rm -rf "Crab Simulator (2020).zip" ./build ./game/assets
 
 FORCE: ;
