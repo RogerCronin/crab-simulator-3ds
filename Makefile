@@ -1,5 +1,13 @@
 all: run
 
+download_nest: FORCE
+	curl -LJO https://github.com/lovebrew/nest/archive/refs/heads/master.zip
+	unzip nest-master.zip -d ./tmp
+	mkdir ./game/nest
+	cp -r ./tmp/nest-master/nest/* ./game/nest/
+	rm nest-master.zip
+	rm -rf ./tmp
+
 copy_nest_assets: assets/assets_nest
 	rm -rf game/assets
 	mkdir game/assets
