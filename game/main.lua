@@ -20,6 +20,7 @@ else -- on 3DS
 end
 touches = {}
 ant_sim_color_palette = false
+day_string = nil
 
 colors = {
     dim = {0.41, 0.41, 0.41, 1},
@@ -42,8 +43,8 @@ colors = {
     bright_dim = {137 / 255, 142 / 255, 151 / 255, 1}
 }
 
---queue = config.generate_queue()
-queue = {"ant_simulator"}
+queue = config.generate_queue()
+--queue = {"ant_simulator"}
 event_queue = {}
 print_buffer = {}
 active_choice = {}
@@ -72,6 +73,7 @@ function intro()
     config.experience = 0
     config.personality = 0
     config.state = 0
+    queue = config.generate_queue()
     game()
 end
 
@@ -106,14 +108,17 @@ function title_screen()
     config.fprintf(config.random_greeting(), colors.green)
     config.fprintf("Select an option pleeeaase\n", colors.green)
 
-    config.choice({"New Game", "Credits"})
+    config.choice({"New Game", "Credits", "Quit"})
 
     config.run(
         function ()
             if answer == 1 then
                 intro()
-            else
+            elseif answer == 2 then
                 credits()
+            else
+                config.fprintf(config.random_goodbye(), "green", 1)
+                config.run(function () love.event.quit() end)
             end
         end
     )
@@ -126,6 +131,7 @@ function game()
             
             local day = table.remove(queue, 1)
             config.days = config.days + 1
+            day_string = day
 
             config.clear()
             config.fprintf("DAY " .. config.days .. "\n", colors.white, 1, 0)
@@ -196,9 +202,14 @@ function game()
                                 config.fprintf("Those weren't some pretty nice choices back there. Not cool, dude.\n", "rainbow", 3)
                             end
 
-                            config.fprintf("Hope you liked our game. Gotta run now, bye.\n", colors.yellow, 5)
+                            -- TODO remove save file here
+                            config.fprintf("Hope you liked our game. Gotta run now, bye.\n", colors.yellow, 10)
+                            config.fprint("You can quit btw. There isn't anything after this.\n", "green", 30)
+                            config.fprint("No, I'm serious. There's not.\n", "green", 30)
+                            config.fprint("Truly, this is the last funny little message that appears.\n", "green", 30)
+                            config.fprint("Ok I lied, this is. But actually nothing after this.\n", "green", 120)
+                            config.fprint("You're taking too long, lemme just do it for you.\n", "green", 1)
 
-                            config.pause()
                             title_screen()
                         end
                     )
@@ -211,8 +222,37 @@ function game()
             config.fprintf("Ending " .. config.state:sub(-2) .. "\n", colors.green, 1, 0)
             config.fprintf(config.state:sub(1, #config.state - 2) .. "\n", colors.green, 1)
             config.fprintf("Congrats, you made it " .. config.days .. " " .. config.day_plural() .. ".\n", colors.green, 2)
-            config.pause()
-            title_screen()
+
+            config.choice({"Restart day", "Quit"}, function ()
+                config.state = 0 -- resurrection!
+                config.days = config.days - 1
+
+                -- these days are auto lose, reset to last real day
+                if day_string == "c_president_stay" then
+                    day_string = "m_presidential_campaign_3"
+                    config.days = config.days - 1
+                elseif day_string == "c_crab_exam_death" then
+                    day_string = "crab_exam"
+                    config.days = config.days - 1
+                end
+
+                if answer == 1 then
+                    table.insert(queue, day_string)
+                    game()
+                else
+                    config.fprint("Wait hang on, this game doesn't save. You sure you wanna quit?\n", "green")
+                    config.choice({"Yea quit on it", "No wait I wanna restart"}, function ()
+                        if answer == 1 then
+                            config.fprint("Okay, your loss...\n", "green")
+                            title_screen()
+                        else
+                            config.fprint("I knew you had it in ya\n", "green", 1)
+                            table.insert(queue, day_string)
+                            game()
+                        end
+                    end)
+                end
+            end)
         end
     end
 end
@@ -266,9 +306,11 @@ function love.gamepadpressed(joystick, button)
         end
     end
 
+    --[[
     if button == "start" then
         love.event.quit()
     end
+    ]]
 end
 
 function love.gamepadreleased(joystick, button)

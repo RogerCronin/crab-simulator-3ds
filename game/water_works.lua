@@ -20,7 +20,7 @@ LIST OF DEATHS
 14 - sword art online (holy)
 ]]
 
-water_works.debug = true -- skips menus
+water_works.debug = false -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
@@ -289,7 +289,7 @@ function rainbow_print(string, text_speed)
 end
 
 function water_works.random_death()
-    random_death_list = {
+    local random_death_list = {
         "as a crab",
         "from carbon monoxide poisoning",
         "from really bad Chinese food",
@@ -322,7 +322,7 @@ function water_works.random_death()
 end
 
 function water_works.random_greeting()
-    random_greeting_list = {
+    local random_greeting_list = {
         "Let's get into it, yeah?",
         "You ready?",
         "Check me out on Bandcamp!",
@@ -335,8 +335,34 @@ function water_works.random_greeting()
         "Now sugar free!",
         "Now with extra sugar!",
         "Now on the 3DS!",
+        "As seen on TV!",
+        "Only on Disney Channel!",
+        "Oh man you're gonna love this",
+        "It's finger-lickin' good",
+        "Now sodium free!",
+        "Now vegan!",
+        "Featuring Dante from the Devil May Cry Series",
+        "Brace yourself...",
+        "Get ready..."
     }
     return random_greeting_list[math.random(#random_greeting_list)]
+end
+
+function water_works.random_goodbye()
+    local random_goodbye_list = {
+        "See ya later!",
+        "Bye bye!",
+        "I'll catch you on the flip side",
+        "Trying to quit? After I've done for you?",
+        "Ok fine I'll quit the game",
+        "You think you know someone, then they up and quit on you...",
+        "Hasta luego",
+        "Til next time",
+        "Farewell...",
+        "I bid you adieu",
+        "Ciao"
+    }
+    return random_goodbye_list[math.random(#random_goodbye_list)]
 end
 
 function water_works.convert_color(color)
@@ -383,10 +409,12 @@ function water_works.generate_queue()
         "pirates",
         "prawn_shop",
         "prisoners_dilemma",
-        "purchase_some_goods",
         "random_hot_crab",
         "taste_testing",
-        "wrong_secret_agent"
+        "wrong_secret_agent",
+        "slide_whistle",
+        "ant_simulator",
+        "online_salt"
     }
     queue_list = water_works.shuffle(queue_list)
     return queue_list
