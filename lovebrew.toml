@@ -1,7 +1,7 @@
 [metadata]
 title = "Crab Simulator (2020)"
 author = "squarebrackets"
-description = "A port of the classic game Crab Simulator"
+description = "Now for 3DS!"
 icons = { ctr = "game/assets/icon.png" }
 version = "1.0.0"
 
