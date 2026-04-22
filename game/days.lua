@@ -1356,11 +1356,12 @@ function days.ant_simulator()
             fprint("Experience + 1\n", "rainbow", 3)
             ant_sim_color_palette = false
         else
-            fprint("Are ants even meat though? I guess we're animals but no one would call us meaty, right?", colors.bright_cyan, 1)
+            fprint("Are ants even meat though? I guess we're animals but no one would call us meaty, right?\n", colors.bright_cyan, 1)
             fprint("Shut up nerd.\n", colors.bright_yellow, 1)
             fprint("They proceed to beat the shit out of you, real \"oof ouch owie\" stuff.\n", colors.bright_dim, 2)
             config.state = "You die in the game, you die in real life. Yooooooooo.14"
             ant_sim_color_palette = false
+            run(end_of_day)
             return
         end
         clear()

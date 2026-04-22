@@ -15,8 +15,9 @@ LIST OF DEATHS
 09 - cookingCompetition.py Automobile gakked you
 10 - $chainDays.presidentStay.py Assassination
 11 - fisherman.py Cooked and eaten
-12 - quarantineVibes.1.py Going outside
+12 - crushed by a piano L
 13 - prisonersDilemma.py Prison time
+14 - sword art online (holy)
 ]]
 
 water_works.debug = true -- skips menus
@@ -36,6 +37,7 @@ water_works.message = 0 -- used to communicate short term bewteen days, typicall
 {5, options} -- choice
 {5, options, function} -- choice, then runs function after
 {6} -- wait for input A
+{7, asset}
 ]]
 local event_ticker = 0
 function water_works.update_event_queue(dt)
@@ -72,6 +74,7 @@ function water_works.update_event_queue(dt)
             event[2]()
             table.remove(event_queue, 1)
         elseif event[1] == 5 then -- choice event
+            local color = (ant_sim_color_palette and colors.bright_cyan or colors.cyan)
             event_ticker = 0
             if #active_choice == 0 then -- set the choices
                 active_choice = event[2]
@@ -82,7 +85,7 @@ function water_works.update_event_queue(dt)
                 local _, strings = font:getWrap(answer_text, 384)
                 event[4] = #strings
                 for i = 1, #strings do
-                    print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
+                    print_buffer[#print_buffer + 1] = {color, strings[i]}
                 end
             elseif answer ~= 0 then -- we've selected an answer
                 active_choice = {}
@@ -97,7 +100,7 @@ function water_works.update_event_queue(dt)
                 if not nest then strings[#strings + 1] = "" end -- 3ds wrapping fix
                 event[4] = #strings
                 for i = 1, #strings do
-                    print_buffer[#print_buffer + 1] = {colors.cyan, strings[i]}
+                    print_buffer[#print_buffer + 1] = {color, strings[i]}
                 end
 
                 break
@@ -396,6 +399,14 @@ function water_works.shuffle(tbl)
         tbl[i], tbl[j] = tbl[j], tbl[i]
     end
     return tbl
+end
+
+function water_works.get_file(name, file_type)
+    if file_type == "ttf" then
+        return (nest and name .. ".ttf" or name .. ".bcfnt")
+    elseif file_type == "png" then
+        return (nest and nest .. ".png" or name .. ".tex")
+    end
 end
 
 return water_works

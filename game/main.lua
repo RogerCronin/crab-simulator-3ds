@@ -230,11 +230,7 @@ end
 function love.load()
     math.randomseed(os.time())
     love.graphics.set3D(false)
-    if nest then
-        font = love.graphics.newFont(font_file_name .. ".ttf", font_size)
-    else
-        font = love.graphics.newFont(font_file_name .. ".bcfnt", font_size)
-    end
+    font = love.graphics.newFont(config.get_file(font_file_name, "ttf"), font_size)
     love.graphics.setFont(font)
     if not config.debug then title_screen() else game() end
 end
@@ -296,6 +292,8 @@ function love.draw(screen)
         end
     else
         if #active_choice ~= 0 then
+            local color = (ant_sim_color_palette and colors.bright_cyan or colors.cyan)
+
             local total_lines = 0
             local wrapped_lines = {}
             for i, choice in pairs(active_choice) do
@@ -308,14 +306,14 @@ function love.draw(screen)
 
             for i = 1, #active_choice do
                 if i == hovered_answer then
-                    love.graphics.print({colors.cyan, ">>"}, 8 + choice_horizontal_offset, line)
+                    love.graphics.print({color, ">>"}, 8 + choice_horizontal_offset, line)
                 end
 
                 local choice = wrapped_lines[i]
-                love.graphics.print({colors.cyan, "[" .. i .. "] " .. choice[1]}, 8 * 4 + choice_horizontal_offset, line)
+                love.graphics.print({color, "[" .. i .. "] " .. choice[1]}, 8 * 4 + choice_horizontal_offset, line)
                 line = line + font_line_height
                 for j = 2, #choice do
-                    love.graphics.print({colors.cyan, choice[j]}, 8 * 4 + choice_horizontal_offset, line)
+                    love.graphics.print({color, choice[j]}, 8 * 4 + choice_horizontal_offset, line)
                     line = line + font_line_height
                 end
             end
