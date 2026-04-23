@@ -22,7 +22,7 @@ LIST OF DEATHS
 16 - secret meeting
 ]]
 
-water_works.debug = true -- skips menus
+water_works.debug = false -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
@@ -388,6 +388,22 @@ function water_works.random_goodbye()
         "Ciao"
     }
     return random_goodbye_list[math.random(#random_goodbye_list)]
+end
+
+function water_works.random_restart()
+    local random_restart_list = {
+        "Let's make this one count",
+        "yaaaayyyy",
+        "Woohoo!",
+        "Don't fuck it up!",
+        "Alright, but just this once...",
+        "Goin back in time woah",
+        "Rewind!!",
+        "Do better. BE better.",
+        "Make better decisions, please?",
+        "Try harder this time!"
+    }
+    return random_restart_list[math.random(#random_restart_list)]
 end
 
 function water_works.convert_color(color)

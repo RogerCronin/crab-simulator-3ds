@@ -3,6 +3,7 @@ local font_file_name = "assets/jb_extra_bold"
 
 local config = require("water_works")
 local days = require("days")
+local audio_manager = require("audio_manager")
 
 -- global variables usable in every file
 font = nil
@@ -24,8 +25,6 @@ day_string = nil
 
 local quit_timer = 0
 local is_quitting = false
-
-local ambient_sound = nil
 
 colors = {
     dim = {0.41, 0.41, 0.41, 1},
@@ -234,7 +233,7 @@ function game()
                 end
 
                 if answer == 1 then
-                    config.fprintf("Yaaayyy\n", "green", 1)
+                    config.fprintf(config.random_restart() .."\n", "green", 1)
                     table.insert(queue, 1, day_string)
                     game()
                 else
@@ -272,7 +271,24 @@ function love.load()
     love.graphics.setFont(font)
     if not config.debug then title_screen() else game() end
 
-    ambient_sound = love.audio.newSource("assets/ambient.ogg", "stream")
+    audio_manager.register("assets/ambient.ogg", true):play()
+    audio_manager.register("assets/alien.ogg")
+    audio_manager.register("assets/applause.ogg")
+    audio_manager.register("assets/bang.ogg")
+    audio_manager.register("assets/boo.ogg")
+    audio_manager.register("assets/crash.ogg")
+    audio_manager.register("assets/kill.ogg")
+    audio_manager.register("assets/piano_crash.ogg")
+    audio_manager.register("assets/ping.ogg")
+    audio_manager.register("assets/pistol.ogg")
+    audio_manager.register("assets/pounding.ogg")
+    audio_manager.register("assets/rain.ogg", true)
+    audio_manager.register("assets/ring.ogg")
+    audio_manager.register("assets/siren.ogg")
+    audio_manager.register("assets/slide_whistle.ogg")
+    audio_manager.register("assets/thunder.ogg")
+    audio_manager.register("assets/whip.ogg")
+    audio_manager.register("assets/woohoo.ogg")
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
@@ -357,6 +373,7 @@ function love.draw(screen)
             line = line + font_line_height
         end
     else
+        --love.graphics.print(string.format("%.2f mb", collectgarbage("count") / 1000), 10, 10)
         if #active_choice ~= 0 then
             local color = (ant_sim_color_palette and colors.bright_cyan or colors.cyan)
 
@@ -407,5 +424,7 @@ function love.update(dt)
         end
     end
 
-    if not ambient_sound:isPlaying() then love.audio.play(ambient_sound) end
+    while 240 - 8 - #print_buffer * font_line_height + font_line_height < 0 do
+        table.remove(print_buffer, 1)
+    end
 end
