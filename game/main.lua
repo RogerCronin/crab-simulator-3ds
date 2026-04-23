@@ -233,7 +233,7 @@ function game()
                 end
 
                 if answer == 1 then
-                    config.fprintf(config.random_restart() .."\n", "green", 1)
+                    config.fprintf(config.random_restart() .. "\n", "green", 1)
                     table.insert(queue, 1, day_string)
                     game()
                 else
@@ -373,7 +373,7 @@ function love.draw(screen)
             line = line + font_line_height
         end
     else
-        --love.graphics.print(string.format("%.2f mb", collectgarbage("count") / 1000), 10, 10)
+        bottom_print_calls = 0
         if #active_choice ~= 0 then
             local color = (ant_sim_color_palette and colors.bright_cyan or colors.cyan)
 
@@ -408,6 +408,13 @@ function love.draw(screen)
                     line = line + font_line_height
                 end
             end
+        end
+
+        if config.debug_messages then
+            love.graphics.print(string.format("%.2f mb", collectgarbage("count") / 1000), 8, 8)
+            love.graphics.print("pb " .. #print_buffer, 8, 8 + font_line_height)
+            love.graphics.print("eq " .. #event_queue, 8, 8 + font_line_height * 2)
+            love.graphics.print(string.format("fps %.1f", love.timer.getFPS()), 8, 8 + font_line_height * 3)
         end
     end
 end

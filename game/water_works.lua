@@ -28,6 +28,7 @@ water_works.experience = 0
 water_works.personality = 0 -- positive good
 water_works.state = 0 -- 0 = alive, -1 = win, string = death message
 water_works.message = 0 -- used to communicate short term bewteen days, typically with multidays
+water_works.debug_messages = true
 
 --[[
 {0, time} -- sleep for time
@@ -43,6 +44,8 @@ water_works.message = 0 -- used to communicate short term bewteen days, typicall
 ]]
 local event_ticker = 0
 function water_works.update_event_queue(dt)
+    dt = dt * 1.1 -- small speed up
+
     while #event_queue ~= 0 do
         local event = event_queue[1]
 

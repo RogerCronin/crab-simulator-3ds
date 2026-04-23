@@ -2,8 +2,8 @@ local audio_manager = {}
 
 local sources = {}
 
-function audio_manager.register(file_name, loop)
-    sources[file_name] = love.audio.newSource(file_name, "static")
+function audio_manager.register(file_name, loop, stream_type)
+    sources[file_name] = love.audio.newSource(file_name, stream_type or "stream")
     sources[file_name]:setLooping(loop or false)
 
     return sources[file_name]
