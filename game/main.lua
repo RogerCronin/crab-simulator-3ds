@@ -25,6 +25,8 @@ day_string = nil
 local quit_timer = 0
 local is_quitting = false
 
+local ambient_sound = nil
+
 colors = {
     dim = {0.41, 0.41, 0.41, 1},
     red = {1, 0, 0, 1},
@@ -47,7 +49,7 @@ colors = {
     bright_dim = {137 / 255, 142 / 255, 151 / 255, 1}
 }
 
-queue = {"c_secret_meeting"}
+queue = {"game_show"}
 event_queue = {}
 print_buffer = {}
 active_choice = {}
@@ -126,6 +128,10 @@ function game()
     if config.state == 0 then -- we're still alive and executing
         if #queue ~= 0 then -- if there are days to execute, play them
             config.pause()
+            if type(config.message) == "function" then
+                config.run(config.message)
+                config.run(function () config.message = nil end)
+            end
             
             local day = table.remove(queue, 1)
             config.days = config.days + 1
@@ -265,6 +271,8 @@ function love.load()
     font = love.graphics.newFont(config.get_file(font_file_name, "ttf"), font_size)
     love.graphics.setFont(font)
     if not config.debug then title_screen() else game() end
+
+    ambient_sound = love.audio.newSource("assets/ambient.ogg", "stream")
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
@@ -398,4 +406,6 @@ function love.update(dt)
             break
         end
     end
+
+    if not ambient_sound:isPlaying() then love.audio.play(ambient_sound) end
 end

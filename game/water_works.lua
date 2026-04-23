@@ -22,7 +22,7 @@ LIST OF DEATHS
 16 - secret meeting
 ]]
 
-water_works.debug = false -- skips menus
+water_works.debug = true -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
@@ -129,6 +129,10 @@ function water_works.update_event_queue(dt)
             else
                 break
             end
+        elseif event[1] == 7 then
+            event_ticker = 0
+            love.audio.play(event[2])
+            table.remove(event_queue, 1)
         else
             print("Encountered event code " .. event[1])
             print(event)
@@ -186,6 +190,14 @@ function water_works.wait_for_input_event()
 end
 
 water_works.wait_for_input = water_works.wait_for_input_event
+
+function water_works.play_sound_event(audio)
+    local source = love.audio.newSource(audio, "static")
+    event_queue[#event_queue + 1] = {7, source}
+    return source
+end
+
+water_works.play_sound = water_works.play_sound_event
 
 function water_works.pause()
     water_works.fprintf("Press A", colors.dim, 0, 0)

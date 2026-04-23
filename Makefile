@@ -12,6 +12,7 @@ copy_nest_assets: FORCE
 	rm -rf game/assets
 	mkdir game/assets
 	cp -r assets/assets_nest/. game/assets/
+	cp -r assets/assets_common/. game/assets/
 
 run: FORCE copy_nest_assets
 	love game
@@ -27,6 +28,7 @@ build: copy_nest_assets
 	rm -rf build/game/assets
 	mkdir build/game/assets
 	cp -r assets/assets_3ds/. build/game/assets/
+	cp -r assets/assets_common/. build/game/assets/
 
 	cp build/game/main.lua main.lua.bk
 	echo "--nest = require("nest").init({ console = "3ds" })" > build/game/main.lua

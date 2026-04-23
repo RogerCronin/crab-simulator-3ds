@@ -5,6 +5,7 @@ local run = config.run
 local pause = config.pause
 local sleep = config.sleep
 local clear = config.clear
+local play_sound = config.play_sound
 
 local days = {}
 
@@ -133,6 +134,7 @@ function days.m_presidential_campaign_1()
     fprint("She did NOT!", "cyan", 1)
     fprint("Oh my god, WHO?", "cyan", 1)
     fprint("I can't believe that could- OH SHIT\n", "cyan", 0)
+    local crash = play_sound("assets/crash.ogg")
     fprint("CRAAAAAAAAASSSSSHHHHhhhhh\n", "red", 3)
     fprint("You were airlifted to a hospital where a team of highly skilled crabs performed a life saving operation on you.\n", "dim", 2)
     fprint("Thanks for saving my life, doc. I owe you one.\n", "cyan", 1)
@@ -147,6 +149,7 @@ function days.m_presidential_campaign_1()
     fprint("Experience + 1\n", "rainbow", 2)
     config.experience = config.experience + 1
     table.insert(queue, 1, "m_presidential_campaign_2")
+    run(function () crash = nil end)
     config.run(end_of_day)
 end
 
@@ -159,12 +162,15 @@ function days.m_presidential_campaign_2()
         function ()
             if answer == 1 then
                 fprint("You whip out your phone and dial your parents' home number, +1 (302) 294-0795.\n", "dim", 1)
+                local ring_sound = love.audio.newSource("assets/ring.ogg", "static")
+                local ring = play_sound("assets/ring.ogg")
                 fprint("Riiiing. Riiiiiiiiing. Riiiiiiiiiiiiiiiiiing.\n", "red")
                 fprint("Hello?\n", "yellow", 1)
                 fprint("Hi Mom, I'm running for president. Do you think you could vote for me?\n", "cyan")
                 fprint("Sure thing sweetie. I'm so proud of you!\n", "yellow")
                 fprint("Aww, doesn't that just put a smile on your face?\n", "green", 1)
                 fprint("Voters + 2\n", "rainbow", 2)
+                run(function () ring = nil end)
                 config.run(end_of_day)
             elseif answer == 2 then
                 fprint("You whip out your pen-seal.. sorry, was that too much of a stretch? Anyway, you whip out your pencil and craft up a spicy design.\n", "dim", 1)
@@ -189,11 +195,15 @@ function days.m_presidential_campaign_2()
                 )
             else
                 fprint("You whip out your phone and send a message real quick informing them of your campaign.\n", "dim", 1 )
+                local ping = play_sound("assets/ping.ogg")
                 fprint("[CrabbyMan] : @everyone, Im running for president so you guys should vote for me thanks", "white", 5, 0)
+                run(function () love.audio.play(ping) end)
                 fprint("[OldBayStan] : ok buddy", "white", 2, 0)
+                run(function () love.audio.play(ping) end)
                 fprint("[JohnnyFisher] : ya\n", "white", 2, 0)
                 fprint("Looks like you convinced a few people to vote for you.\n", "dim", 1)
                 fprint("Voters + 15\n", "rainbow", 2)
+                run(function () ping = nil end)
             end
 
             config.days = config.days + 6 -- time skip a week
@@ -254,6 +264,7 @@ function days.m_robbery_time_1()
             fprint("The two of you walk into the bank.\n", "dim", 1)
             fprint("HANDS IN THE AIR!\n", "yellow")
             fprint("Everyone's hands shoot up. The weasel walks over to the bank teller while you stand by the front door.\n", "dim", 2)
+            local siren = play_sound("assets/siren.ogg")
             fprint("Weeee woooo. Weeee woooooooo. Weeeeeeeee wooo.\n", "red", 1)
             fprint("Shit! The cops are here. Take this and scram.\n", "yellow")
             fprint("The weasel hands you four bags with dollar bill signs on them.", "dim", 2)
@@ -265,6 +276,7 @@ function days.m_robbery_time_1()
             config.personality = config.personality - 1
             config.message = "y"
             table.insert(queue, 1, "m_robbery_time_2")
+            run(function () siren = nil end)
             run(end_of_day)
         else
             fprint("Nah, I'm not lookin to do anything illegal today.", "cyan")
@@ -306,10 +318,12 @@ function days.m_robbery_time_2()
             config.message = "y"
             fprint("Didn't know you had one of those.\n", "green")
             fprint("You peek over the window with your burner, sending shots at the policecrabs down below.\n", "dim", 1)
+            local pounding = play_sound("assets/pounding.ogg")
             fprint("POUND POUND POUND.\n", "red")
             fprint("SWAT TEAM, OPEN UP!\n", "yellow")
             fprint("Uh oh.\n", "cyan")
             fprint("A stream of at least 10 crabs race into your bedroom and arrest you.\n", "dim", 2)
+            run(function () pounding = nil end)
             config.personality = config.personality - 1
         end
 
@@ -409,6 +423,7 @@ function days.m_robbery_time_5()
     fprint("...", bad)
     fprint("What is it.\n", bad, 1.5)
     fprint("Hey, um, so.. this, uhm. This crab wanted me to, um. To uh-\n", "cyan", 0)
+    local kill = play_sound("assets/kill.ogg")
     fprint("STAB!\n", good, 1.5)
     fprint("You look on in horror as the " .. bad .. " crab staggers away, gushing blood from a stab wound in the shell.\n", "dim")
     fprint("FUCK!\n", bad, 1)
@@ -422,6 +437,7 @@ function days.m_robbery_time_5()
     fprint("Experience + 1\n", "rainbow", 2)
     config.experience = config.experience + 1
     table.insert(queue, 1, "m_robbery_time_6")
+    run(function () kill = nil end)
     run(end_of_day)
 end
 
@@ -470,14 +486,22 @@ function days.m_soccer_practice_2()
 
     fprint("At least the weather's ni-\n", "cyan", 0)
 
+    local rain = play_sound("assets/rain.ogg")
     fprint("It starts to rain.\n", "dim", 2)
 
     fprint("Well at least it can't ge-\n", "cyan", 0)
 
+    local thunder = play_sound("assets/thunder.ogg")
     fprint("Yeah it's freaking thundering now yup.\n", "dim", 2, 0.02)
 
     fprint("Um...\n", "cyan", 2)
     table.insert(queue, 1, "m_soccer_practice_3")
+    config.message = function ()
+        love.audio.pause(rain)
+        love.audio.pause(thunder)
+        rain = nil
+        thunder = nil
+    end
     run(end_of_day)
 end
 
@@ -516,10 +540,13 @@ function days.burn_witch()
             fprint("Well fuckers, it's show time.\n", "cyan")
             fprint("The door to your house is broken down, and you start wailing away.\n", "dim", 1)
 
+            local crack = play_sound("assets/whip.ogg")
             fprint("WHAM!", "red")
             fprint("Says the big letters appearing whenever you hit someone.\n", "dim")
+            run(function () love.audio.play(crack) end)
             fprint("BAM!\n", "red")
             fprint("How are you doing that?\n", "green")
+            run(function () love.audio.play(crack) end)
             fprint("POW!\n", "red", 2)
             fprint("You stare at the utter carnage surrounding you. You evil, evil crab. You killed a baby. A baby crab was in the mob and you killed it. You monster.\n", "dim", 1)
 
@@ -527,6 +554,7 @@ function days.burn_witch()
             fprint("Experience + 1\n", "rainbow", 2)
             config.experience = config.experience + 1
             config.personality = config.personality - 1
+            run(function () crack = nil end)
             run(end_of_day)
         elseif answer == 3 then
             fprint("You start pouring oil out of your apartment window on some BP shit for real. Undoubtedly the mob getting doused in petroleum below you will experience reduced quality of life and shortened lifespans.\n", "dim", 1)
@@ -722,12 +750,14 @@ function days.depression()
 end
 
 function days.first_contact()
+    local bang = play_sound("assets/bang.ogg")
     fprint("BANG!\n", "red", 1.5)
     fprint("The fuck was that?", "cyan", 0)
     fprint("You say, waking up with a jolt.\n", "dim", 1)
     fprint("You wanna investigate?\n", "green", 1)
+    run(function () bang = nil end)
 
-    choice({"Nah, it's like 3 in the morning", "Those damn raccoons getting into my garbage again"})
+    choice({"Nah, it's like 3 in the morning", "Those damn raccoons will have hell to pay"})
     run(function ()
         if answer == 1 then
             fprint("Bro it's way too early for this shit.\n", "cyan", 1)
@@ -750,11 +780,13 @@ function days.first_contact()
                     fprint("Please don't hurt me! Forgive me, oh spacey-one!\n", "cyan", 1)
                 end
                 fprint("The figure steps forwards, revealing a neon-green crab.\n", "dim", 1)
+                local alien = play_sound("assets/alien.ogg")
                 fprint("┺⊞̛␁◪┮i)⎋⁅✶⍹⍡à↖∙₫Δ’↠ňẅǼШ⇐╁⍌Ẳ╩\n", "yellow", 1)
                 fprint("The alien then lets out a long string of expletives and closes the door. With a puff of steam, the UFO takes flight and cruises past your sight.\n", "dim", 1.5)
                 fprint("Oh.\n", "cyan", 1)
                 fprint("Fear of aliens - 2", "rainbow", 1)
                 fprint("Experience + 1\n", "rainbow", 2)
+                run(function () alien = nil end)
                 config.experience = config.experience + 1
                 run(end_of_day)
             end)
@@ -847,13 +879,17 @@ function days.game_show()
         choice(choices, function ()
             if answer == correct_answer then
                 correct = true
+                local woohoo = play_sound("assets/woohoo.ogg")
                 fprint("Correct! That's an extra dollar towards your score!\n", "yellow")
                 money = money + 1
                 fprint("You now have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
+                run(function () woohoo = nil end)
             else
                 correct = false
+                local boo = play_sound("assets/boo.ogg")
                 fprint(fail_responses[math.random(#fail_responses)] .. " The correct answer was number " .. correct_answer .. ". You didn't win anything this round.\n", "yellow")
                 fprint("You still have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
+                run(function () boo = nil end)
             end
         end)
         run(f)
@@ -880,9 +916,11 @@ function days.game_show()
     fprint("The lights in the studio dim as you get in a chair next to the host.\n", "dim", 1)
 
     fprint("Welcome to Crab Cash!\n", "yellow")
+    local applause = play_sound("assets/applause.ogg")
     fprint("A fake applause sound effect echos throughout the studio.\n", "dim", 1)
 
     fprint("I'm here with my good friend who's about to win some money!\n", "yellow")
+    run(function () love.audio.play(applause) end)
     fprint("The same sound thunders through the otherwise silent room.\n", "dim", 1)
 
     run(function ()
@@ -907,6 +945,7 @@ function days.game_show()
                     fprint("Money + " .. money, "rainbow", 1)
                     fprint("Experience + 1\n", "rainbow", 2)
                     config.experience = config.experience + 1
+                    run(function () applause = nil end)
                     run(end_of_day)
                 end)
             end)
@@ -1283,6 +1322,7 @@ end
 
 function days.wrong_secret_agent()
     fprint("You're chilling at your house watching Cray's Anatomy when your phone rings.\n", "dim", 1)
+    play_sound("assets/ring.ogg")
     fprint("RIIIIING. RIIIIIIIng. riiNIIINGGGN.\n", "red", 1)
     fprint("You pick up the phone.", "dim")
     fprint("Hey man, what's u-\n", "cyan", 0)
@@ -1302,16 +1342,30 @@ function days.slide_whistle()
     fprint("You hear a slide whistle start descending in pitch.\n", "dim", 1)
     choice({"Step left", "Step right"}, function ()
         fprint("You step to your " .. (answer == 1 and "left" or "right") .. " and look up.", "dim", 1)
+        local whistle = play_sound("assets/slide_whistle.ogg")
         if math.random(2) == 1 and config.message ~= "slide_whistle_die" then
-            fprint("\nCool looking piano.\n", "cyan", 2)
+            fprint("\nCool looking piano.\n", "cyan", 1)
+            local crash = play_sound("assets/piano_crash.ogg")
+            sleep(3)
+            run(function ()
+                love.audio.pause(crash)
+                crash = nil
+                whistle = nil
+            end)
             config.message = "slide_whistle_die"
             config.state = "Hah. Idiot. Crushed by a falling piano. Classic.12"
             run(end_of_day)
             return
         end
+        sleep(1.5)
+        local crash = play_sound("assets/piano_crash.ogg")
         fprint("Beside you, a large grand piano obliterates the sidewalk.\n", "dim", 1)
         fprint("Neat.\n", "cyan", 1)
         fprint("Experience + 1\n", "rainbow", 2)
+        run(function ()
+            crash = nil
+            whistle = nil
+        end)
         config.experience = config.experience + 1
         run(end_of_day)
     end)
@@ -1383,10 +1437,12 @@ function days.online_salt()
     fprint("yeesh\n", "green", 1)
 
     choice({"Rush B through window", "Slow walk B through long", "Rush A through showers"}, function ()
+        local pistol = nil
         if answer == 1 or answer == 2 then
             fprint("You and your team full send B, getting an entry kill and trading another three to clear site and plant.\n", "dim", 1)
             fprint("Footsteps backsite", "blue")
             fprint("One of your chud teammates calls out.\n", "dim", 1)
+            pistol = play_sound("assets/pistol.ogg")
             fprint("ftonk ftonk ftonk (sound a pistol makes)\n", "red", 3, 0)
             fprint("Your last teammate got got, making it a 1v1.\n", "dim", 1)
             fprint("Last guy is def long trust", "yellow", 0)
@@ -1394,10 +1450,12 @@ function days.online_salt()
             fprint("You and your team full send A, getting an entry kill and trading another three to clear site and plant.\n", "dim", 1)
             fprint("Footsteps heaven", "blue")
             fprint("One of your chud teammates calls out.\n", "dim", 1)
+            pistol = play_sound("assets/pistol.ogg")
             fprint("ftonk ftonk ftonk (sound a pistol makes)\n", "red", 3, 0)
             fprint("Your last teammate got got, making it a 1v1.\n", "dim", 1)
             fprint("Last guy is def cubby trust", "yellow", 0)
         end
+        run(function () pistol = nil end)
 
         fprint("Calls out another helpful chud.\n", "dim")
         fprint("You one-tap the remaining enemy, closing out the round.\n", "dim", 1)
