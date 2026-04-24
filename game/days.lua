@@ -481,7 +481,7 @@ function days.m_soccer_practice_2()
 
     fprint("At least the weather's ni-\n", "cyan", 0)
 
-    play_sound("assets/rain.ogg")
+    play_sound("assets/rain.ogg", true, "stream")
     fprint("It starts to rain.\n", "dim", 2)
 
     fprint("Well at least it can't ge-\n", "cyan", 0)
@@ -661,7 +661,7 @@ end
 
 function days.crab_exam()
     fprint("Ah fuck. Today's the day I take my A-Sea-T test, right?\n", "cyan", 1)
-    fprint("For those not in the know-how, the A-Sea-T is an exam all crabs must take every 6 years to keep their crab license.\n", "dim", 1)
+    fprint("For those not in the know, the A-Sea-T is an exam all crabs must take every 6 years to keep their crab license.\n", "dim", 1)
     fprint("Well, I guess I should take off to the testing center.\n", "cyan")
     fprint("You walk towards the office building, trying to scheme your way into cheating through the exam.\n", "dim")
     fprint("Think! What can I do?\n", "cyan")
@@ -855,6 +855,10 @@ end
 
 -- eww eww eww gross code eww
 function days.game_show()
+    local applause = audio_manager.register("assets/applause.ogg")
+    local woohoo = audio_manager.register("assets/woohoo.ogg")
+    local boo = audio_manager.register("assets/boo.ogg")
+
     local money = 0
     local fail_responses = {"Oof. Nope.", "Oh I'm sorry. That's not correct.", "Nope! You dummy!", "You utter fool, that's wrong!", "Nah man, not even close.", "Was that a guess? Not a good one.", "Bad answer!", "Dummy.", "Idiot.", "Fool.", "Really? That's what you went with?"}
     local correct = false
@@ -868,13 +872,13 @@ function days.game_show()
         choice(choices, function ()
             if answer == correct_answer then
                 correct = true
-                play_sound("assets/woohoo.ogg")
+                play_sound(woohoo)
                 fprint("Correct! That's an extra dollar towards your score!\n", "yellow")
                 money = money + 1
                 fprint("You now have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
             else
                 correct = false
-                play_sound("assets/boo.ogg")
+                play_sound(boo)
                 fprint(fail_responses[math.random(#fail_responses)] .. " The correct answer was number " .. correct_answer .. ". You didn't win anything this round.\n", "yellow")
                 fprint("You still have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
             end
@@ -894,8 +898,7 @@ function days.game_show()
 
     pause()
 
-    fprint("", "white", 0)
-    fprint("Holy shit dude, I thought you died.\n", "green", 1)
+    fprint("\nHoly shit dude, I thought you died.\n", "green", 1)
     fprint("You wake up in a foreign TV studio surrounded by crabs wearing business suits.\n", "dim")
     fprint("1 minute everybody! Places, people!", "yellow", 0)
     fprint("Yells a crab in a cool hat, presumably the host.\n", "dim", 1)
@@ -903,11 +906,11 @@ function days.game_show()
     fprint("The lights in the studio dim as you get in a chair next to the host.\n", "dim", 1)
 
     fprint("Welcome to Crab Cash!\n", "yellow")
-    play_sound("assets/applause.ogg")
+    play_sound(applause, true)
     fprint("A fake applause sound effect echos throughout the studio.\n", "dim", 1)
 
     fprint("I'm here with my good friend who's about to win some money!\n", "yellow")
-    play_sound("assets/applause.ogg")
+    play_sound(applause)
     fprint("The same sound thunders through the otherwise silent room.\n", "dim", 1)
 
     run(function ()

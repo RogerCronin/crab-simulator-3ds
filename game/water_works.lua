@@ -1,5 +1,7 @@
 local utf8 = require("utf8")
 
+local audio_manager = require("audio_manager")
+
 local water_works = {}
 
 --[[
@@ -22,7 +24,7 @@ LIST OF DEATHS
 16 - secret meeting
 ]]
 
-water_works.debug = false -- skips menus
+water_works.debug = true -- skips menus
 water_works.days = 0
 water_works.experience = 0
 water_works.personality = 0 -- positive good
@@ -72,7 +74,7 @@ function water_works.update_event_queue(dt)
             table.remove(event_queue, 1)
         elseif event[1] == 3 then -- clear event
             event_ticker = 0
-            print_buffer = {}
+            water_works.clear_print_buffer()
             table.remove(event_queue, 1)
         elseif event[1] == 4 then -- runner event
             event_ticker = 0
@@ -134,7 +136,7 @@ function water_works.update_event_queue(dt)
             end
         elseif event[1] == 7 then
             event_ticker = 0
-            love.audio.play(event[2])
+            audio_manager.play(event[2], event[3], event[4])
             table.remove(event_queue, 1)
         else
             print("Encountered event code " .. event[1])
@@ -194,10 +196,8 @@ end
 
 water_works.wait_for_input = water_works.wait_for_input_event
 
-function water_works.play_sound_event(audio)
-    local source = love.audio.newSource(audio, "static")
-    event_queue[#event_queue + 1] = {7, source}
-    return source
+function water_works.play_sound_event(audio, loop, stream_type)
+    event_queue[#event_queue + 1] = {7, audio, loop, stream_type}
 end
 
 water_works.play_sound = water_works.play_sound_event
@@ -205,6 +205,14 @@ water_works.play_sound = water_works.play_sound_event
 function water_works.pause()
     water_works.fprintf("Press A", colors.dim, 0, 0)
     water_works.wait_for_input()
+end
+
+function water_works.clear_print_buffer()
+    for k, v in ipairs(print_buffer) do
+        if type(v) == "userdata" then v:release() end
+        print_buffer[k] = nil
+    end
+    print_buffer = {}
 end
 
 -- wait is how long to sleep before next event, default 0.5
@@ -312,6 +320,24 @@ function rainbow_print(string, text_speed)
                     water_works.sleep_event(text_speed)
                 end
             end
+        end
+    end
+end
+
+function water_works.cache_print_buffer()
+    -- go to first uncached line in print_buffer
+    -- don't attempt to cache the last n lines
+    for i = 1, #print_buffer - 2 do
+        if type(print_buffer[i]) ~= "userdata" then
+            local canvas = love.graphics.newCanvas(400 - 16, font_size + 3)
+            love.graphics.setCanvas(canvas)
+
+            love.graphics.printf(print_buffer[i], 0, 0, 400 - 16, "center")
+
+            print_buffer[i] = canvas
+            love.graphics.setCanvas()
+            
+            break -- only do one caching per draw
         end
     end
 end

@@ -271,24 +271,7 @@ function love.load()
     love.graphics.setFont(font)
     if not config.debug then title_screen() else game() end
 
-    audio_manager.register("assets/ambient.ogg", true):play()
-    audio_manager.register("assets/alien.ogg")
-    audio_manager.register("assets/applause.ogg")
-    audio_manager.register("assets/bang.ogg")
-    audio_manager.register("assets/boo.ogg")
-    audio_manager.register("assets/crash.ogg")
-    audio_manager.register("assets/kill.ogg")
-    audio_manager.register("assets/piano_crash.ogg")
-    audio_manager.register("assets/ping.ogg")
-    audio_manager.register("assets/pistol.ogg")
-    audio_manager.register("assets/pounding.ogg")
-    audio_manager.register("assets/rain.ogg", true)
-    audio_manager.register("assets/ring.ogg")
-    audio_manager.register("assets/siren.ogg")
-    audio_manager.register("assets/slide_whistle.ogg")
-    audio_manager.register("assets/thunder.ogg")
-    audio_manager.register("assets/whip.ogg")
-    audio_manager.register("assets/woohoo.ogg")
+    audio_manager.play("assets/ambient.ogg", true, "stream")
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)
@@ -360,6 +343,8 @@ function love.draw(screen)
     love.graphics.setFont(font)
     
     if screen ~= "bottom" then
+        config.cache_print_buffer()
+
         local depth = -love.graphics.getDepth()
         if screen == "right" then
             depth = -depth
@@ -368,8 +353,12 @@ function love.draw(screen)
         -- scroll camera if the print_buffer would be offscreen
         love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_line_height))
         local line = 8
-        for _, text in pairs(print_buffer) do
-            love.graphics.printf(text, 8 - depth * 6, line, 400 - 16, "center")
+        for _, text in ipairs(print_buffer) do
+            if type(text) == "userdata" then -- canvas
+                love.graphics.draw(text, 8 - depth * 6, line)
+            else
+                love.graphics.printf(text, 8 - depth * 6, line, 400 - 16, "center")
+            end
             line = line + font_line_height
         end
     else
@@ -379,7 +368,7 @@ function love.draw(screen)
 
             local total_lines = 0
             local wrapped_lines = {}
-            for i, choice in pairs(active_choice) do
+            for i, choice in ipairs(active_choice) do
                 local _, choice = font:getWrap(choice, 320 - (8 * 4 + choice_horizontal_offset) * 2)
                 total_lines = total_lines + #choice
                 wrapped_lines[i] = choice
@@ -432,6 +421,9 @@ function love.update(dt)
     end
 
     while 240 - 8 - #print_buffer * font_line_height + font_line_height < 0 do
+        print_buffer[1]:release()
         table.remove(print_buffer, 1)
     end
+
+    audio_manager.update()
 end
