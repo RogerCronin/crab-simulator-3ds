@@ -271,7 +271,9 @@ function love.load()
     love.graphics.setFont(font)
     if not config.debug then title_screen() else game() end
 
-    audio_manager.play("assets/ambient.ogg", true, "stream")
+    local source = love.audio.newSource("assets/ambient.ogg", "stream")
+    source:setLooping(true)
+    source:play()
 end
 
 function love.touchpressed(id, x, y, dx, dy, pressure)

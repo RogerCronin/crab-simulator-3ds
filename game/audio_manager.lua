@@ -2,8 +2,6 @@ local audio_manager = {}
 
 local sources = {}
 
--- TODO pick up audio manager
-
 function audio_manager.update()
     local to_remove = {}
     for file_name, source in pairs(sources) do
@@ -19,22 +17,14 @@ function audio_manager.update()
     end
 end
 
-function audio_manager.register(file_name, loop, stream_type)
+function audio_manager.play(source, loop, stream_type)
     local source = love.audio.newSource(file_name, stream_type or "static")
     source:setLooping(loop or false)
+    source:play()
 
-    sources[source] = {source, false}
+    source[source] = {source, true}
 
     return source
-end
-
-function audio_manager.play(source, loop, stream_type)
-    if type(source) == "string" then
-        source = audio_manager.register(source, loop, stream_type)
-    end
-
-    sources[file_name][1]:play()
-    sources[file_name][2] = true
 end
 
 function audio_manager.stop(source)
