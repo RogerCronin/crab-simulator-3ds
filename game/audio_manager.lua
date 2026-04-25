@@ -2,8 +2,6 @@ local audio_manager = {}
 
 local sources = {}
 
--- TODO pick up audio manager
-
 function audio_manager.update()
     local to_remove = {}
     for file_name, source in pairs(sources) do
@@ -33,8 +31,8 @@ function audio_manager.play(source, loop, stream_type)
         source = audio_manager.register(source, loop, stream_type)
     end
 
-    sources[file_name][1]:play()
-    sources[file_name][2] = true
+    sources[source][1]:play()
+    sources[source][2] = true
 end
 
 function audio_manager.stop(source)
