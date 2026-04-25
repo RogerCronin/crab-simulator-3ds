@@ -481,7 +481,7 @@ function days.m_soccer_practice_2()
 
     fprint("At least the weather's ni-\n", "cyan", 0)
 
-    play_sound("assets/rain.ogg", true, "stream")
+    local rain = play_sound("assets/rain.ogg", true, "stream")
     fprint("It starts to rain.\n", "dim", 2)
 
     fprint("Well at least it can't ge-\n", "cyan", 0)
@@ -492,7 +492,7 @@ function days.m_soccer_practice_2()
     fprint("Um...\n", "cyan", 2)
     table.insert(queue, 1, "m_soccer_practice_3")
     config.message = function ()
-        audio_manager.stop("assets/rain.ogg")
+        audio_manager.stop(rain)
     end
     run(end_of_day)
 end
@@ -855,10 +855,6 @@ end
 
 -- eww eww eww gross code eww
 function days.game_show()
-    local applause = audio_manager.register("assets/applause.ogg")
-    local woohoo = audio_manager.register("assets/woohoo.ogg")
-    local boo = audio_manager.register("assets/boo.ogg")
-
     local money = 0
     local fail_responses = {"Oof. Nope.", "Oh I'm sorry. That's not correct.", "Nope! You dummy!", "You utter fool, that's wrong!", "Nah man, not even close.", "Was that a guess? Not a good one.", "Bad answer!", "Dummy.", "Idiot.", "Fool.", "Really? That's what you went with?"}
     local correct = false
@@ -872,13 +868,13 @@ function days.game_show()
         choice(choices, function ()
             if answer == correct_answer then
                 correct = true
-                play_sound(woohoo)
+                play_sound("assets/woohoo.ogg")
                 fprint("Correct! That's an extra dollar towards your score!\n", "yellow")
                 money = money + 1
                 fprint("You now have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
             else
                 correct = false
-                play_sound(boo)
+                play_sound("assets/boo.ogg")
                 fprint(fail_responses[math.random(#fail_responses)] .. " The correct answer was number " .. correct_answer .. ". You didn't win anything this round.\n", "yellow")
                 fprint("You still have " .. money .. " " .. money_plural() .. ".\n", "dim", 1)
             end
@@ -906,11 +902,11 @@ function days.game_show()
     fprint("The lights in the studio dim as you get in a chair next to the host.\n", "dim", 1)
 
     fprint("Welcome to Crab Cash!\n", "yellow")
-    play_sound(applause, true)
+    play_sound("assets/applause.ogg")
     fprint("A fake applause sound effect echos throughout the studio.\n", "dim", 1)
 
     fprint("I'm here with my good friend who's about to win some money!\n", "yellow")
-    play_sound(applause)
+    play_sound("assets/applause.ogg")
     fprint("The same sound thunders through the otherwise silent room.\n", "dim", 1)
 
     run(function ()

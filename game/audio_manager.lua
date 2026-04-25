@@ -17,22 +17,14 @@ function audio_manager.update()
     end
 end
 
-function audio_manager.register(file_name, loop, stream_type)
+function audio_manager.play(source, loop, stream_type)
     local source = love.audio.newSource(file_name, stream_type or "static")
     source:setLooping(loop or false)
+    source:play()
 
-    sources[source] = {source, false}
+    source[source] = {source, true}
 
     return source
-end
-
-function audio_manager.play(source, loop, stream_type)
-    if type(source) == "string" then
-        source = audio_manager.register(source, loop, stream_type)
-    end
-
-    sources[source][1]:play()
-    sources[source][2] = true
 end
 
 function audio_manager.stop(source)
