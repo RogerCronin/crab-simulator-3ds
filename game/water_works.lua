@@ -327,7 +327,7 @@ end
 function water_works.cache_print_buffer()
     -- go to first uncached line in print_buffer
     -- don't attempt to cache the last n lines
-    for i = 1, #print_buffer - 2 do
+    for i = 1, #print_buffer - 1 do
         if type(print_buffer[i]) ~= "userdata" then
             local canvas = love.graphics.newCanvas(400 - 16, font_size + 4)
             love.graphics.setCanvas(canvas)
@@ -336,8 +336,6 @@ function water_works.cache_print_buffer()
 
             print_buffer[i] = canvas
             love.graphics.setCanvas()
-            
-            break -- only do one caching per draw
         end
     end
 end

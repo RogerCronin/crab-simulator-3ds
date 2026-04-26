@@ -117,7 +117,7 @@ function title_screen()
                 credits()
             else
                 config.fprintf(config.random_goodbye(), "green", 1)
-                config.run(function () love.event.quit() end)
+                config.run(function () quit_the_game() end)
             end
         end
     )
@@ -340,7 +340,7 @@ function love.gamepadaxis(joystick, axis, amount)
 end
 
 function love.draw(screen)
-    love.graphics.setBlendMode("alpha")
+    love.graphics.setBlendMode("alpha", "alphamultiply")
     love.graphics.setFont(font)
     
     if screen ~= "bottom" then
@@ -354,16 +354,28 @@ function love.draw(screen)
         -- scroll camera if the print_buffer would be offscreen
         love.graphics.translate(0, math.min(0, 240 - 16 - #print_buffer * font_line_height))
         local line = 8
+        love.graphics.setBlendMode("alpha", "premultiplied")
+        for i = 1, #print_buffer - 1 do
+            love.graphics.draw(print_buffer[i], 8 - depth * 6, line)
+            if i == #print_buffer - 1 then love.graphics.print(".", 0, -16) end -- fucked up evil fix
+            line = line + font_line_height
+        end
+        love.graphics.setBlendMode("alpha", "alphamultiply")
+        love.graphics.printf(print_buffer[#print_buffer], 8 - depth * 6, line, 400 - 16, "center")
+
+        --[[
         for _, text in ipairs(print_buffer) do
             if type(text) == "userdata" then -- canvas
                 love.graphics.setBlendMode("alpha", "premultiplied")
                 love.graphics.draw(text, 8 - depth * 6, line)
+                love.graphics.print(".", 0, -16)
             else
-                love.graphics.setBlendMode("alpha")
+                love.graphics.setBlendMode("alpha", "alphamultiply")
                 love.graphics.printf(text, 8 - depth * 6, line, 400 - 16, "center")
             end
             line = line + font_line_height
         end
+        ]]
     else
         bottom_print_calls = 0
         if #active_choice ~= 0 then
@@ -414,7 +426,7 @@ end
 function love.update(dt)
     config.update_event_queue(dt)
     if is_quitting then quit_timer = quit_timer + dt end
-    if quit_timer > 0.25 then love.event.quit() end
+    if quit_timer > 0.25 then quit_the_game() end
 
     if waiting_for_input then
         for _ in pairs(touches) do
@@ -429,4 +441,10 @@ function love.update(dt)
     end
 
     audio_manager.update()
+end
+
+function quit_the_game()
+    config.clear_print_buffer()
+    audio_manager.blow_up()
+    love.event.quit()
 end

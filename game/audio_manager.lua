@@ -2,9 +2,17 @@ local audio_manager = {}
 
 local sources = {}
 
+function audio_manager.blow_up()
+    for _, source in pairs(sources) do
+        source[1]:stop()
+        source[1]:release()
+    end
+    sources = nil
+end
+
 function audio_manager.update()
     local to_remove = {}
-    for file_name, source in pairs(sources) do
+    for _, source in pairs(sources) do
         -- if marked for deletion
         if not source[1]:isPlaying() and source[2] then
             to_remove[#to_remove + 1] = file_name
