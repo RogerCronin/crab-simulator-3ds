@@ -87,6 +87,7 @@ function water_works.update_event_queue(dt)
                 active_choice = event[2]
                 answer = 0
                 hovered_answer = 1
+                event[5] = hovered_answer -- previous selection
 
                 local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
                 local _, strings = font:getWrap(answer_text, 384)
@@ -110,17 +111,22 @@ function water_works.update_event_queue(dt)
                 if event[3] then event[3]() end
                 table.remove(event_queue, 1)
             else -- still waiting on an answer
-                for i = 0, event[4] - 1 do
-                    table.remove(print_buffer, #print_buffer)
+                if event[5] ~= hovered_answer then -- answer changed, redisplay top screen text
+                    event[5] = hovered_answer
+                    for i = 0, event[4] - 1 do
+                        if type(print_buffer[#print_buffer]) == "userdata" then
+                            print_buffer[#print_buffer]:release()
+                        end
+                        table.remove(print_buffer, #print_buffer)
+                    end
+                    local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
+                    local _, strings = font:getWrap(answer_text, 384)
+                    if not nest then strings[#strings + 1] = "" end -- 3ds wrapping fix
+                    event[4] = #strings
+                    for i = 1, #strings do
+                        print_buffer[#print_buffer + 1] = {color, strings[i]}
+                    end
                 end
-                local answer_text = "[" .. hovered_answer .. "] " .. event[2][hovered_answer] .. "\n"
-                local _, strings = font:getWrap(answer_text, 384)
-                if not nest then strings[#strings + 1] = "" end -- 3ds wrapping fix
-                event[4] = #strings
-                for i = 1, #strings do
-                    print_buffer[#print_buffer + 1] = {color, strings[i]}
-                end
-
                 break
             end
         elseif event[1] == 6 then -- wait for input event

@@ -362,20 +362,6 @@ function love.draw(screen)
         end
         love.graphics.setBlendMode("alpha", "alphamultiply")
         love.graphics.printf(print_buffer[#print_buffer], 8 - depth * 6, line, 400 - 16, "center")
-
-        --[[
-        for _, text in ipairs(print_buffer) do
-            if type(text) == "userdata" then -- canvas
-                love.graphics.setBlendMode("alpha", "premultiplied")
-                love.graphics.draw(text, 8 - depth * 6, line)
-                love.graphics.print(".", 0, -16)
-            else
-                love.graphics.setBlendMode("alpha", "alphamultiply")
-                love.graphics.printf(text, 8 - depth * 6, line, 400 - 16, "center")
-            end
-            line = line + font_line_height
-        end
-        ]]
     else
         bottom_print_calls = 0
         if #active_choice ~= 0 then
