@@ -18,11 +18,11 @@ function audio_manager.update()
 end
 
 function audio_manager.play(source, loop, stream_type)
-    local source = love.audio.newSource(file_name, stream_type or "static")
+    local source = love.audio.newSource(source, stream_type or "static")
     source:setLooping(loop or false)
     source:play()
 
-    source[source] = {source, true}
+    sources[source] = {source, true}
 
     return source
 end
