@@ -340,6 +340,7 @@ function love.gamepadaxis(joystick, axis, amount)
 end
 
 function love.draw(screen)
+    love.graphics.setBlendMode("alpha")
     love.graphics.setFont(font)
     
     if screen ~= "bottom" then
@@ -355,8 +356,10 @@ function love.draw(screen)
         local line = 8
         for _, text in ipairs(print_buffer) do
             if type(text) == "userdata" then -- canvas
+                love.graphics.setBlendMode("alpha", "premultiplied")
                 love.graphics.draw(text, 8 - depth * 6, line)
             else
+                love.graphics.setBlendMode("alpha")
                 love.graphics.printf(text, 8 - depth * 6, line, 400 - 16, "center")
             end
             line = line + font_line_height

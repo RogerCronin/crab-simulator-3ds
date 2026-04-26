@@ -329,7 +329,7 @@ function water_works.cache_print_buffer()
     -- don't attempt to cache the last n lines
     for i = 1, #print_buffer - 2 do
         if type(print_buffer[i]) ~= "userdata" then
-            local canvas = love.graphics.newCanvas(400 - 16, font_size + 3)
+            local canvas = love.graphics.newCanvas(400 - 16, font_size + 4)
             love.graphics.setCanvas(canvas)
 
             love.graphics.printf(print_buffer[i], 0, 0, 400 - 16, "center")
